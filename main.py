@@ -19,6 +19,8 @@ def show_scores():
     count=0
     post_obj=[]
     teams=[]
+    homeForm={}
+    awayForm={}
     form={}
 
     response = requests.get(uri, headers=headers)
@@ -30,25 +32,80 @@ def show_scores():
         #print(new_item)
         #item_id = todo_db.addMany(response.json()['matches'])
         #print(item_id)
+        homeTeam = str(match['homeTeam']['name'])
+        print(f"Hometeam is {homeTeam}")
+        awayTeam = str(match['awayTeam']['name'])
+        print(f"AwayTeam is {awayTeam}")
+
         if(match['score']['fullTime']['home']) > (match['score']['fullTime']['away']):
 
-            homeTeam = str(match['homeTeam']['name'])
-            if(homeTeam not in form.keys()):
+            if homeTeam not in homeForm.keys():
+                homeForm[homeTeam] = "W"
+            else:
+                homeForm[homeTeam] += "W"
+
+            if homeTeam not in form.keys():
                 form[homeTeam] = "W"
             else:
+                print(f"{homeTeam}  in form.keys ")
                 form[homeTeam] += "W"
+
+            if awayTeam not in awayForm.keys():
+                awayForm[awayTeam] = "L"
+            else:
+                awayForm[awayTeam] += "L"
+
+            if awayTeam not in form.keys():
+                form[awayTeam] = "L"
+            else:
+                form[awayTeam] += "L"
+
         elif(match['score']['fullTime']['home']) < (match['score']['fullTime']['away']):
-            homeTeam = str(match['homeTeam']['name'])
-            if(homeTeam not in form.keys()):
+
+            if homeTeam not in homeForm.keys():
+                homeForm[homeTeam] = "L"
+            else:
+                homeForm[homeTeam] += "L"
+
+            if homeTeam not in form.keys():
                 form[homeTeam] = "L"
             else:
+                print(f"{homeTeam}  in form.keys ")
                 form[homeTeam] += "L"
+
+            if awayTeam not in awayForm.keys():
+                awayForm[awayTeam] = "W"
+            else:
+                awayForm[awayTeam] += "W"
+
+            if awayTeam not in form.keys():
+                form[awayTeam] = "W"
+            else:
+                form[awayTeam] += "W"
+
         elif(match['score']['fullTime']['home']) == (match['score']['fullTime']['away']):
-            homeTeam = str(match['homeTeam']['name'])
-            if(homeTeam not in form.keys()):
+
+            if homeTeam not in homeForm.keys():
+                homeForm[homeTeam] = "D"
+            else:
+                homeForm[homeTeam] += "D"
+
+            if homeTeam not in form.keys():
                 form[homeTeam] = "D"
             else:
+                print(f"{homeTeam}  in form.keys ")
                 form[homeTeam] += "D"
+
+            if awayTeam not in awayForm.keys():
+                awayForm[awayTeam] = "D"
+            else:
+                awayForm[awayTeam] += "D"
+
+            if awayTeam not in form.keys():
+                form[awayTeam] = "D"
+            else:
+                form[awayTeam] += "D"
+
         print(form)
 
 

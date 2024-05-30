@@ -21,6 +21,16 @@
 </select>
         <button type="submit">Ok</button>
 
+<div>
+{% block body %}
+        {# NOTE - loop through a dictionary's key and values with .iteritems #}
+	{% for team,results in form.items() %}
+                {# NOTE - display the nut's name and the taste #}
+		{{ team }} = {{ results }}<br>
+	{% endfor %}
+{% endblock %}
+</div>
+
     {% for post in all_posts: %}
     <div class="content">
         <div class="card ">
