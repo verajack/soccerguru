@@ -22,6 +22,7 @@ def show_scores():
     homeForm={}
     awayForm={}
     form={}
+    name=""
 
     response = requests.get(uri, headers=headers)
     for match in response.json()['matches']:
@@ -117,6 +118,20 @@ def show_scores():
     teams.sort()
     print(form)
 
+    json_object = json.dumps(form, indent=4)
+    with open("form.json", "w") as outfile:
+        outfile.write(json_object)
+
+    json_object = json.dumps(homeForm, indent=4)
+    with open("homeForm.json", "w") as outfile:
+        outfile.write(json_object)
+
+    json_object = json.dumps(awayForm, indent=4)
+    with open("awayForm.json", "w") as outfile:
+        outfile.write(json_object)
+
+
+
 
     return render_template("index.html", all_posts=post_obj, all_teams=teams,form=form, counter=count)
 
@@ -126,6 +141,9 @@ def show_team_scores():
     count=0
     post_obj=[]
     teams=[]
+    homeForm={}
+    awayForm={}
+    form={}
     response = requests.get(uri, headers=headers)
     name = request.form["teamlist"]
     for match in response.json()['matches']:
@@ -136,7 +154,7 @@ def show_team_scores():
             teams.append(f"{match['awayTeam']['name']}")
     teams.sort()
 
-    return render_template("index.html", all_posts=post_obj, all_teams=teams, counter=count)
+    return render_template("index.html", all_posts=post_obj, all_teams=teams,form=form, counter=count, selectedTeam=name)
 
 if __name__ == "__main__":
     app.run(debug=True)
