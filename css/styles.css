@@ -48,14 +48,6 @@ p {
     margin-top: 10rem;
 	text-align: center;
 }
-
-.box p { color: #fff; text-shadow: 0 0 10px rgba(0,0,0,0.3); letter-spacing:1px; text-align:center; }
-.container {
-    margin-top: 10rem;
-	text-align: center;
-}
-
-
 .container h1 { color: #fff; text-shadow: 0 0 10px rgba(0,0,0,0.3); letter-spacing:1px; text-align:center; }
 input { 
 	width: 100%; 
