@@ -225,7 +225,6 @@ def show_team_scores():
     current_day = datetime.now().strftime('%d')
     current_year_full = datetime.now().strftime('%Y')
 
-    print("Hello")
     count=0
     post_obj=[]
     teams=[]
