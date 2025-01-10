@@ -6,6 +6,7 @@ from sqlalchemy import Integer, String
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
 import requests
 from datetime import datetime
+import json
 
 
 match=[]
@@ -212,6 +213,10 @@ def secrets():
             print(f"{match['awayTeam']['name']} not in teams")
 
     teams.sort()
+    json_object = json.dumps(form, indent =4)
+    with open("form.json", "w") as outfile:
+        outfile.write(json_object)
+
     print(teams)
 
     return render_template("main_football_page.html", name=current_user.name, logged_in=True, all_posts=post_obj, all_teams=teams,form=form, counter=count, current_month=current_month_text, current_day=current_day, current_year=current_year_full)
@@ -239,12 +244,21 @@ def show_team_scores():
         count=count+1
         if (match['awayTeam']['name'] == name) or (match['homeTeam']['name'] == name):
             post_obj.append(f"{match['homeTeam']['name']} {match['score']['fullTime']['home']} : {match['score']['fullTime']['away']} {match['awayTeam']['name']}")
+            print(f"A - {match['homeTeam']['name']} {match['score']['fullTime']['home']} : {match['score']['fullTime']['away']} {match['awayTeam']['name']}")
         if (match['awayTeam']['name'] not in teams ):
             teams.append(f"{match['awayTeam']['name']}")
+            print(f"B - {match['homeTeam']['name']} {match['score']['fullTime']['home']} : {match['score']['fullTime']['away']} {match['awayTeam']['name']})")
     teams.sort()
+
+
 
     return render_template("main_football_page.html", all_posts=post_obj, all_teams=teams,form=form, counter=count, selectedTeam=name, current_month=current_month_text, current_day=current_day, current_year=current_year_full)
 
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
 
 @app.route('/logout')
 @login_required
