@@ -113,6 +113,10 @@ def get_stats():
 
         teams.sort()
 
+    with open('teams.txt', 'w') as f:
+        for line in teams:
+            f.write(f"{line}\n")
+
     with open('results.txt', 'w') as f:
         for line in results:
             f.write(f"{line}\n")

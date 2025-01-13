@@ -6,6 +6,8 @@ from sqlalchemy import Integer, String
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
 import requests
 from datetime import datetime
+import json
+import re
 
 
 match=[]
@@ -105,122 +107,24 @@ def login():
 def secrets():
     print(current_user.name)
 
-    uri = 'https://api.football-data.org/v4/competitions/ELC/matches?status=FINISHED'
-    headers = { 'X-Auth-Token': '611a49203eca499a90945814f14d0d8f' }
+
     current_month_text = datetime.now().strftime('%B')
     current_day = datetime.now().strftime('%d')
     current_year_full = datetime.now().strftime('%Y')
+    with open('results.txt') as f:
+        post_obj = f.read().splitlines()
 
-    print("Hello")
-    count=0
-    post_obj=[]
-    teams=[]
-    homeForm={}
-    awayForm={}
-    form={}
-    name=""
+    with open('teams.txt') as f:
+        teams= f.read().splitlines()
 
-    response = requests.get(uri, headers=headers)
-    for match in response.json()['matches']:
-        count=count+1
-        # if (match['awayTeam']['name'] == "Sheffield Wednesday FC"):
-        post_obj.append(f"{match['homeTeam']['name']} {match['score']['fullTime']['home']} : {match['score']['fullTime']['away']} {match['awayTeam']['name']}")
-        #new_item = f"{match['awayTeam']['name']} : {match['score']['fullTime']['home']}"
-        #print(new_item)
-        #item_id = todo_db.addMany(response.json()['matches'])
-        #print(item_id)
-        homeTeam = str(match['homeTeam']['name'])
-        #print(f"Hometeam is {homeTeam}")
-        awayTeam = str(match['awayTeam']['name'])
-        #print(f"AwayTeam is {awayTeam}")
+    with open("team_form.json", "r") as file:
+        form = json.load(file)
 
-        if(match['score']['fullTime']['home']) > (match['score']['fullTime']['away']):
-
-            if homeTeam not in homeForm.keys():
-                homeForm[homeTeam] = "W"
-            else:
-                homeForm[homeTeam] += "W"
-
-            if homeTeam not in form.keys():
-                form[homeTeam] = "W"
-            else:
-                #print(f"{homeTeam}  in form.keys ")
-                form[homeTeam] += "W"
-
-            if awayTeam not in awayForm.keys():
-                awayForm[awayTeam] = "L"
-            else:
-                awayForm[awayTeam] += "L"
-
-            if awayTeam not in form.keys():
-                form[awayTeam] = "L"
-            else:
-                form[awayTeam] += "L"
-
-        elif(match['score']['fullTime']['home']) < (match['score']['fullTime']['away']):
-
-            if homeTeam not in homeForm.keys():
-                homeForm[homeTeam] = "L"
-            else:
-                homeForm[homeTeam] += "L"
-
-            if homeTeam not in form.keys():
-                form[homeTeam] = "L"
-            else:
-                #print(f"{homeTeam}  in form.keys ")
-                form[homeTeam] += "L"
-
-            if awayTeam not in awayForm.keys():
-                awayForm[awayTeam] = "W"
-            else:
-                awayForm[awayTeam] += "W"
-
-            if awayTeam not in form.keys():
-                form[awayTeam] = "W"
-            else:
-                form[awayTeam] += "W"
-
-        elif(match['score']['fullTime']['home']) == (match['score']['fullTime']['away']):
-
-            if homeTeam not in homeForm.keys():
-                homeForm[homeTeam] = "D"
-            else:
-                homeForm[homeTeam] += "D"
-
-            if homeTeam not in form.keys():
-                form[homeTeam] = "D"
-            else:
-                #print(f"{homeTeam}  in form.keys ")
-                form[homeTeam] += "D"
-
-            if awayTeam not in awayForm.keys():
-                awayForm[awayTeam] = "D"
-            else:
-                awayForm[awayTeam] += "D"
-
-            if awayTeam not in form.keys():
-                form[awayTeam] = "D"
-            else:
-                form[awayTeam] += "D"
-
-        #print(form)
-
-        if (match['awayTeam']['name'] not in teams ):
-            teams.append(f"{match['awayTeam']['name']}")
-            print("APPENDING TEAMS!")
-        else:
-            print(f"{match['awayTeam']['name']} not in teams")
-
-    teams.sort()
-    print(teams)
-
-    return render_template("main_football_page.html", name=current_user.name, logged_in=True, all_posts=post_obj, all_teams=teams,form=form, counter=count, current_month=current_month_text, current_day=current_day, current_year=current_year_full)
+    return render_template("main_football_page.html", name=current_user.name, logged_in=True, all_posts=post_obj, all_teams=teams,form=form, current_month=current_month_text, current_day=current_day, current_year=current_year_full)
 
 @app.route('/teams', methods=['POST'])
 def show_team_scores():
 
-    uri = 'https://api.football-data.org/v4/competitions/ELC/matches?status=FINISHED'
-    headers = { 'X-Auth-Token': '611a49203eca499a90945814f14d0d8f' }
     current_month_text = datetime.now().strftime('%B')
     current_day = datetime.now().strftime('%d')
     current_year_full = datetime.now().strftime('%Y')
@@ -232,14 +136,26 @@ def show_team_scores():
     awayForm={}
     form={}
     name=""
-    response = requests.get(uri, headers=headers)
+
     name = request.form["teamlist"]
-    for match in response.json()['matches']:
-        count=count+1
-        if (match['awayTeam']['name'] == name) or (match['homeTeam']['name'] == name):
-            post_obj.append(f"{match['homeTeam']['name']} {match['score']['fullTime']['home']} : {match['score']['fullTime']['away']} {match['awayTeam']['name']}")
-        if (match['awayTeam']['name'] not in teams ):
-            teams.append(f"{match['awayTeam']['name']}")
+
+    with open('results.txt') as f:
+        results = f.read().splitlines()
+
+    with open('teams.txt') as f:
+        teams= f.read().splitlines()
+
+    with open("team_form.json", "r") as file:
+        form = json.load(file)
+
+    for match in results:
+        # if re.search(f"{name}\s+\d+\s+\:", match):
+        if re.search(f"{name}", match):
+            print("MATCHED CLOWN")
+            post_obj.append(match)
+        else:
+            print(f"{name} not found in {match}")
+
     teams.sort()
 
     return render_template("main_football_page.html", all_posts=post_obj, all_teams=teams,form=form, counter=count, selectedTeam=name, current_month=current_month_text, current_day=current_day, current_year=current_year_full)
