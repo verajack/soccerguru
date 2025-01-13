@@ -58,9 +58,11 @@
 								</ul>
 							</div>
 							<a href="#" class="image featured"><img src="static/images/football-logo.jpg" alt="" /></a>
+
 							<p><b>Select The Team Below to see results.</b>
 							<div>
 							<form action="/teams" method="post">
+								<input type="text" name="league_name" value="{{ current_league }}">
 									<select name="teamlist" class="form-select">
 										<option value= "{{team}}" SELECTED>{{ team }}</option>"
   										{% for team in all_teams[1:] %}
@@ -148,7 +150,8 @@
 					<nav id="nav">
 						<ul>
 							<li class="current"><a href="#">Latest Post</a></li>
-							<li><a href="http://127.0.0.1:5000/form#">Team Form</a></li>
+							<li><a href="http://127.0.0.1:5000/championship#">UK Championship</a></li>
+							<li><a href="http://127.0.0.1:5000/premier_league#">UK Premier League</a></li>
 							<li><a href="#">About Me</a></li>
 							<li><a href="#">Contact Me</a></li>
 						</ul>

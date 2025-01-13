@@ -1,9 +1,11 @@
-def get_stats():
-    import requests
+def get_stats(league_name):
+    print(f"League is {league_name}")
     from datetime import datetime
     import json
-    print("ddd")
-    uri = 'https://api.football-data.org/v4/competitions/ELC/matches?status=FINISHED'
+    import requests
+
+    # uri = 'https://api.football-data.org/v4/competitions/ELC/matches?status=FINISHED'
+    uri = f'https://api.football-data.org/v4/competitions/{league_name}/matches?status=FINISHED'
     headers = { 'X-Auth-Token': '611a49203eca499a90945814f14d0d8f' }
     current_month_text = datetime.now().strftime('%B')
     current_day = datetime.now().strftime('%d')
@@ -113,24 +115,25 @@ def get_stats():
 
         teams.sort()
 
-    with open('teams.txt', 'w') as f:
+    with open(f'stats/teams_{league_name}.txt', 'w') as f:
         for line in teams:
             f.write(f"{line}\n")
 
-    with open('results.txt', 'w') as f:
+    with open(f'stats/results_{league_name}.txt', 'w') as f:
         for line in results:
             f.write(f"{line}\n")
 
-    with open('team_form', 'w') as fp:
+    with open(f'stats/team_form_{league_name}.json', 'w') as fp:
         json.dump(homeForm, fp, indent=4)
 
-    with open('home_form.json', 'w') as fp:
+    with open(f'stats/home_form_{league_name}.json', 'w') as fp:
         json.dump(homeForm, fp, indent=4)
 
-    with open('away_form.json', 'w') as fp:
+    with open(f'stats/away_form_{league_name}.json', 'w') as fp:
         json.dump(awayForm, fp, indent=4)
 
 
+leagues = ('PL','ELC')
+for league in leagues:
+    get_stats(league)
 
-
-get_stats()
