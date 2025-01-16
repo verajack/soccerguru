@@ -125,7 +125,7 @@ def secrets():
 
     sorted_form = dict(sorted(form.items()))
 
-    return render_template("main_football_page.html", name=current_user.name, logged_in=True, all_posts=results,
+    return render_template("welcome_page.html", name=current_user.name, logged_in=True, all_posts=results,
                            all_teams=teams, form=sorted_form, current_month=current_month_text, current_day=current_day,
                            current_year=current_year_full, current_league="PL")
 

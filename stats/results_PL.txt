@@ -197,3 +197,7 @@ Brighton & Hove Albion FC 1 : 1 Arsenal FC
 Fulham FC 2 : 2 Ipswich Town FC
 Liverpool FC 2 : 2 Manchester United FC
 Wolverhampton Wanderers FC 0 : 3 Nottingham Forest FC
+West Ham United FC 3 : 2 Fulham FC
+Brentford FC 2 : 2 Manchester City FC
+Chelsea FC 2 : 2 AFC Bournemouth
+Nottingham Forest FC 1 : 1 Liverpool FC

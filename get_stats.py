@@ -11,7 +11,6 @@ def get_stats(league_name):
     current_day = datetime.now().strftime('%d')
     current_year_full = datetime.now().strftime('%Y')
 
-    print("Hello")
     count=0
     results=[]
     teams=[]
@@ -124,7 +123,7 @@ def get_stats(league_name):
             f.write(f"{line}\n")
 
     with open(f'stats/team_form_{league_name}.json', 'w') as fp:
-        json.dump(homeForm, fp, indent=4)
+        json.dump(form, fp, indent=4)
 
     with open(f'stats/home_form_{league_name}.json', 'w') as fp:
         json.dump(homeForm, fp, indent=4)

@@ -306,3 +306,5 @@ Sheffield Wednesday FC 2 : 2 Millwall FC
 Watford FC 1 : 2 Sheffield United FC
 Sunderland AFC 1 : 0 Portsmouth FC
 Queens Park Rangers FC 2 : 1 Luton Town FC
+Cardiff City FC 1 : 1 Watford FC
+Plymouth Argyle FC 1 : 1 Oxford United FC

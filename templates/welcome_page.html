@@ -33,6 +33,8 @@
 									if they get too long. You can also remove the <p> entirely if you don't
 									need a subtitle.
 								-->
+								<h2><a href="#">Welcome {{name}}</a></h2>
+								<p>A Soccer predicition WebSite built using AI</p>
 							</header>
 							<div class="info">
 								<!--
@@ -55,38 +57,7 @@
 									<li><a href="#" class="icon brands fa-facebook-f">128</a></li>
 								</ul>
 							</div>
-
-							<p><b>Select The Team Below to see results.</b>
-							<div>
-							<form action="/teams" method="post">
-								<input type="text" name="league_name" value="{{ current_league }}">
-									<select name="teamlist" class="form-select">
-										<option value= "{{team}}" SELECTED>{{ team }}</option>"
-  										{% for team in all_teams[1:] %}
-    										<option value="{{team}}">{{team}}</option>
-										{% endfor %}
-									</select>
-        							<button type="submit">Ok</button>
-
-							<div>
-							{% block body %}
-        					{# NOTE - loop through a dictionary's key and values with .iteritems #}
-							{% for team,results in form.items() %}
-								{# NOTE - display the team and the result #}
-								{{ team }} = {{ results }}<br>
-							{% endfor %}
-							{% endblock %}
-							</div>
-							</form>
-                            <p><b><h1>Showing Results for {{selectedTeam}}</h1></b></p>
-							{% for post in all_posts: %}
-        						<div class="card ">
-            					<h3>{{ post }}</h3>
-        						</div>
-							{% endfor %}
-
-						</div>
-							</p>
+							<a href="#" class="image featured"><img src="static/images/football-logo.jpg" size="10" alt="" /></a>
 							<p>
 								<strong>Hello!</strong> You're looking at <strong>SoccerGuru</strong>, a fully AI integrated HTML5 site  designed by Patorado.
 								for <a href="http://html5up.net">SoccerGuru</a> It features a wealth of soccer statistics at your fingertips to assist in predicting Soccer results.
