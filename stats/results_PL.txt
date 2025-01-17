@@ -201,3 +201,9 @@ West Ham United FC 3 : 2 Fulham FC
 Brentford FC 2 : 2 Manchester City FC
 Chelsea FC 2 : 2 AFC Bournemouth
 Nottingham Forest FC 1 : 1 Liverpool FC
+Everton FC 0 : 1 Aston Villa FC
+Leicester City FC 0 : 2 Crystal Palace FC
+Newcastle United FC 3 : 0 Wolverhampton Wanderers FC
+Arsenal FC 2 : 1 Tottenham Hotspur FC
+Ipswich Town FC 0 : 2 Brighton & Hove Albion FC
+Manchester United FC 3 : 1 Southampton FC

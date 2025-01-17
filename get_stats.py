@@ -4,115 +4,110 @@ def get_stats(league_name):
     import json
     import requests
 
-    # uri = 'https://api.football-data.org/v4/competitions/ELC/matches?status=FINISHED'
+
     uri = f'https://api.football-data.org/v4/competitions/{league_name}/matches?status=FINISHED'
-    headers = { 'X-Auth-Token': '611a49203eca499a90945814f14d0d8f' }
+    headers = {'X-Auth-Token': '611a49203eca499a90945814f14d0d8f'}
     current_month_text = datetime.now().strftime('%B')
     current_day = datetime.now().strftime('%d')
     current_year_full = datetime.now().strftime('%Y')
 
-    count=0
-    results=[]
-    teams=[]
-    homeForm={}
-    awayForm={}
-    form={}
-    name=""
+    count = 0
+    results = []
+    teams = []
+    home_form = {}
+    away_form = {}
+    home_points = {}
+    away_points = {}
+    points = {}
+    form = {}
 
     response = requests.get(uri, headers=headers)
     for match in response.json()['matches']:
-        count=count+1
-        homeTeam = str(match['homeTeam']['name'])
-        #print(f"Hometeam is {homeTeam}")
-        awayTeam = str(match['awayTeam']['name'])
-        #print(f"AwayTeam is {awayTeam}")
-        # if (match['awayTeam']['name'] == "Sheffield Wednesday FC"):
-        results.append(f"{match['homeTeam']['name']} {match['score']['fullTime']['home']} : {match['score']['fullTime']['away']} {match['awayTeam']['name']}")
 
-        #new_item = f"{match['awayTeam']['name']} : {match['score']['fullTime']['home']}"
-        #print(new_item)
-        #item_id = todo_db.addMany(response.json()['matches'])
-        #print(item_id)
+        count = count + 1
+        home_team = str(match['homeTeam']['name']).upper()
+        away_team = str(match['awayTeam']['name']).upper()
 
+        results.append(
+            f"{match['homeTeam']['name']} {match['score']['fullTime']['home']} : {match['score']['fullTime']['away']} {match['awayTeam']['name']}")
 
-        if(match['score']['fullTime']['home']) > (match['score']['fullTime']['away']):
+        if (match['score']['fullTime']['home']) > (match['score']['fullTime']['away']):
 
-            if homeTeam not in homeForm.keys():
-                homeForm[homeTeam] = "W"
+            if home_team not in home_form.keys():
+                home_goals = match['score']['fullTime']['home']
+                away_goals = match['score']['fullTime']['away']
+                home_form[home_team] = "W"
+                form[home_team] = "W"
+                home_points[home_team] = 3
+                points[home_team] = 3
+
             else:
-                homeForm[homeTeam] += "W"
+                home_form[home_team] += "W"
+                form[home_team] += "W"
+                home_points[home_team] += 3
+                points[home_team] += 3
 
-            if homeTeam not in form.keys():
-                form[homeTeam] = "W"
+            if away_team not in away_form.keys():
+                away_form[away_team] = "L"
+                form[away_team] = "L"
+                away_points[away_team] = 0
+                points[away_team] = 0
             else:
-                #print(f"{homeTeam}  in form.keys ")
-                form[homeTeam] += "W"
+                away_form[away_team] += "L"
+                form[away_team] += "L"
 
-            if awayTeam not in awayForm.keys():
-                awayForm[awayTeam] = "L"
+        elif (match['score']['fullTime']['home']) < (match['score']['fullTime']['away']):
+
+            if home_team not in home_form.keys():
+                home_form[home_team] = "L"
+                form[home_team] = "L"
+                home_points[home_team] = 0
+                points[home_team] = 0
             else:
-                awayForm[awayTeam] += "L"
+                home_form[home_team] += "L"
+                form[home_team] += "L"
 
-            if awayTeam not in form.keys():
-                form[awayTeam] = "L"
+            if away_team not in away_form.keys():
+                away_form[away_team] = "W"
+                form[away_team] = "W"
+                away_points[away_team] = 3
+                points[away_team] = 3
             else:
-                form[awayTeam] += "L"
+                away_form[away_team] += "W"
+                form[away_team] += "W"
+                away_points[away_team] += 3
+                points[away_team] += 3
 
-        elif(match['score']['fullTime']['home']) < (match['score']['fullTime']['away']):
+        elif (match['score']['fullTime']['home']) == (match['score']['fullTime']['away']):
 
-            if homeTeam not in homeForm.keys():
-                homeForm[homeTeam] = "L"
+            if home_team not in home_form.keys():
+                home_form[home_team] = "D"
+                form[home_team] = "D"
+                home_points[home_team] = 1
+                points[home_team] = 1
             else:
-                homeForm[homeTeam] += "L"
+                home_form[home_team] += "D"
+                form[home_team] += "D"
+                home_points[home_team] += 1
+                points[home_team] += 1
 
-            if homeTeam not in form.keys():
-                form[homeTeam] = "L"
+            if away_team not in away_form.keys():
+                away_form[away_team] = "D"
+                form[away_team] = "D"
+                away_points[away_team] = 1
+                points[away_team] = 1
             else:
-                #print(f"{homeTeam}  in form.keys ")
-                form[homeTeam] += "L"
+                away_form[away_team] += "D"
+                form[away_team] += "D"
+                away_points[away_team] += 1
+                points[away_team] += 1
 
-            if awayTeam not in awayForm.keys():
-                awayForm[awayTeam] = "W"
-            else:
-                awayForm[awayTeam] += "W"
-
-            if awayTeam not in form.keys():
-                form[awayTeam] = "W"
-            else:
-                form[awayTeam] += "W"
-
-        elif(match['score']['fullTime']['home']) == (match['score']['fullTime']['away']):
-
-            if homeTeam not in homeForm.keys():
-                homeForm[homeTeam] = "D"
-            else:
-                homeForm[homeTeam] += "D"
-
-            if homeTeam not in form.keys():
-                form[homeTeam] = "D"
-            else:
-                #print(f"{homeTeam}  in form.keys ")
-                form[homeTeam] += "D"
-
-            if awayTeam not in awayForm.keys():
-                awayForm[awayTeam] = "D"
-            else:
-                awayForm[awayTeam] += "D"
-
-            if awayTeam not in form.keys():
-                form[awayTeam] = "D"
-            else:
-                form[awayTeam] += "D"
-
-        #print(form)
-
-        if (match['awayTeam']['name'] not in teams ):
+        if match['awayTeam']['name'] not in teams:
             teams.append(f"{match['awayTeam']['name']}")
-            print("APPENDING TEAMS!")
-        else:
-            print(f"{match['awayTeam']['name']} not in teams")
 
-        teams.sort()
+
+    teams.sort()
+    sorted_points = sorted(points.items(), key=lambda x: x[1])
 
     with open(f'stats/teams_{league_name}.txt', 'w') as f:
         for line in teams:
@@ -126,13 +121,22 @@ def get_stats(league_name):
         json.dump(form, fp, indent=4)
 
     with open(f'stats/home_form_{league_name}.json', 'w') as fp:
-        json.dump(homeForm, fp, indent=4)
+        json.dump(home_form, fp, indent=4)
 
     with open(f'stats/away_form_{league_name}.json', 'w') as fp:
-        json.dump(awayForm, fp, indent=4)
+        json.dump(away_form, fp, indent=4)
+
+    with open(f'stats/points_{league_name}.json', 'w') as fp:
+        json.dump(sorted_points, fp, indent=4)
+
+    with open(f'stats/home_points_{league_name}.json', 'w') as fp:
+        json.dump(home_points, fp, indent=4)
+
+    with open(f'stats/away_points_{league_name}.json', 'w') as fp:
+        json.dump(away_points, fp, indent=4)
 
 
-leagues = ('PL','ELC')
+leagues = ('PL', 'ELC')
 for league in leagues:
     get_stats(league)
 

@@ -69,13 +69,16 @@
         							<button type="submit">Ok</button>
 
 							<div>
+								<table>
 							{% block body %}
         					{# NOTE - loop through a dictionary's key and values with .iteritems #}
-							{% for team,results in form.items() %}
-								{# NOTE - display the team and the result #}
-								{{ team }} = {{ results }}<br>
-							{% endfor %}
+									<th size="10">Team</th><th size="14">Form</th>
+									{% for team,results in form.items() %}
+									{# NOTE - display the team and the result #}
+										<tr><td>{{ team }}</td><td >{{ results }}</td></tr>
+									{% endfor %}
 							{% endblock %}
+									</table>
 							</div>
 							</form>
                             <p><b><h1>Showing Results for {{selectedTeam}}</h1></b></p>
