@@ -5,26 +5,14 @@
     ],
     [
         "HULL CITY AFC",
-        22
-    ],
-    [
-        "PORTSMOUTH FC",
-        22
-    ],
-    [
-        "CARDIFF CITY FC",
-        24
-    ],
-    [
-        "STOKE CITY FC",
-        24
-    ],
-    [
-        "LUTON TOWN FC",
         25
     ],
     [
-        "OXFORD UNITED FC",
+        "PORTSMOUTH FC",
+        26
+    ],
+    [
+        "LUTON TOWN FC",
         26
     ],
     [
@@ -32,19 +20,27 @@
         27
     ],
     [
-        "COVENTRY CITY FC",
-        29
+        "CARDIFF CITY FC",
+        27
     ],
     [
-        "PRESTON NORTH END FC",
-        30
+        "STOKE CITY FC",
+        28
     ],
     [
         "MILLWALL FC",
         30
     ],
     [
-        "QUEENS PARK RANGERS FC",
+        "PRESTON NORTH END FC",
+        31
+    ],
+    [
+        "OXFORD UNITED FC",
+        32
+    ],
+    [
+        "COVENTRY CITY FC",
         32
     ],
     [
@@ -52,47 +48,51 @@
         34
     ],
     [
-        "SHEFFIELD WEDNESDAY FC",
-        34
-    ],
-    [
-        "WATFORD FC",
+        "QUEENS PARK RANGERS FC",
         35
-    ],
-    [
-        "BRISTOL CITY FC",
-        36
     ],
     [
         "NORWICH CITY FC",
         36
     ],
     [
-        "WEST BROMWICH ALBION FC",
+        "BRISTOL CITY FC",
         37
     ],
     [
-        "MIDDLESBROUGH FC",
-        38
+        "SHEFFIELD WEDNESDAY FC",
+        37
     ],
     [
         "BLACKBURN ROVERS FC",
         39
     ],
     [
+        "MIDDLESBROUGH FC",
+        41
+    ],
+    [
+        "WATFORD FC",
+        41
+    ],
+    [
+        "WEST BROMWICH ALBION FC",
+        41
+    ],
+    [
         "SUNDERLAND AFC",
-        47
-    ],
-    [
-        "BURNLEY FC",
-        49
-    ],
-    [
-        "SHEFFIELD UNITED FC",
         51
     ],
     [
+        "BURNLEY FC",
+        53
+    ],
+    [
         "LEEDS UNITED FC",
-        52
+        55
+    ],
+    [
+        "SHEFFIELD UNITED FC",
+        57
     ]
 ]

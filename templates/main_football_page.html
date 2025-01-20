@@ -62,7 +62,7 @@
 								<input type="text" name="league_name" value="{{ current_league }}">
 									<select name="teamlist" class="form-select">
 										<option value= "{{team}}" SELECTED>{{ team }}</option>"
-  										{% for team in all_teams[1:] %}
+  										{% for team in all_teams[0:] %}
     										<option value="{{team}}">{{team}}</option>
 										{% endfor %}
 									</select>

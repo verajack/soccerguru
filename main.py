@@ -45,6 +45,18 @@ with app.app_context():
     db.create_all()
 
 
+# Function to calculate points from the form
+def calculate_points(form):
+    points = 0
+    for result in form:
+        if result == 'W':
+            points += 3
+        elif result == 'D':
+            points += 1
+        # Loss (L) contributes 0 points, so we skip it
+    return points
+
+
 @app.route('/')
 def home():
     return render_template("index.html", logged_in=current_user.is_authenticated)
@@ -123,16 +135,15 @@ def secrets():
     with open(f"stats/team_form_{league_name}.json") as file:
         form = json.load(file)
 
-    sorted_form = dict(sorted(form.items()))
+    # sorted_form = dict(sorted(form.items()))
 
     return render_template("welcome_page.html", name=current_user.name, logged_in=True, all_posts=results,
-                           all_teams=teams, form=sorted_form, current_month=current_month_text, current_day=current_day,
+                           all_teams=teams, form=form, current_month=current_month_text, current_day=current_day,
                            current_year=current_year_full, current_league="PL")
 
 
 @app.route('/teams', methods=['POST'])
 def show_team_scores():
-
     current_month_text = datetime.now().strftime('%B')
     current_day = datetime.now().strftime('%d')
     current_year_full = datetime.now().strftime('%Y')
@@ -170,10 +181,11 @@ def show_team_scores():
         else:
             print(f"{name} not found in {match}")
 
-    teams.sort()
-    sorted_form = dict(sorted(form.items()))
+    # teams.sort()
+    # sorted_form = dict(sorted(form.items()))
 
-    return render_template("main_football_page.html", all_posts=post_obj, all_teams=teams, form=sorted_form, current_league=league_name, counter=count,
+    return render_template("main_football_page.html", all_posts=post_obj, all_teams=teams, form=form,
+                           current_league=league_name, counter=count,
                            selectedTeam=name, current_month=current_month_text, current_day=current_day,
                            current_year=current_year_full)
 
@@ -203,11 +215,15 @@ def show_championship():
         form = json.load(file)
 
     teams.sort()
-    sorted_form = dict(sorted(form.items()))
 
-    return render_template("main_football_page.html", all_posts=post_obj, all_teams=teams, form=sorted_form, counter=count,
-                           selectedTeam=name, current_month=current_month_text, current_day=current_day,current_league=league_name,
+    sorted_form = dict(sorted(form.items(), key=lambda x: calculate_points(x[1]), reverse=True))
+
+    return render_template("main_football_page.html", all_posts=post_obj, all_teams=teams, form=sorted_form,
+                           counter=count,
+                           selectedTeam=name, current_month=current_month_text, current_day=current_day,
+                           current_league=league_name,
                            current_year=current_year_full)
+
 
 @app.route('/premier_league', methods=["GET", "POST"])
 def show_premiership():
@@ -233,11 +249,12 @@ def show_premiership():
     with open(f'stats/team_form_{league_name}.json') as file:
         form = json.load(file)
 
-    teams.sort()
-    sorted_form = dict(sorted(form.items()))
+    sorted_form = dict(sorted(form.items(), key=lambda x: calculate_points(x[1]), reverse=True))
 
-    return render_template("main_football_page.html", all_posts=post_obj, all_teams=teams, form=sorted_form, counter=count,
-                           selectedTeam=name, current_month=current_month_text, current_day=current_day,current_league=league_name,
+    return render_template("main_football_page.html", all_posts=post_obj, all_teams=teams, form=sorted_form,
+                           counter=count,
+                           selectedTeam=name, current_month=current_month_text, current_day=current_day,
+                           current_league=league_name,
                            current_year=current_year_full)
 
 

@@ -207,3 +207,12 @@ Newcastle United FC 3 : 0 Wolverhampton Wanderers FC
 Arsenal FC 2 : 1 Tottenham Hotspur FC
 Ipswich Town FC 0 : 2 Brighton & Hove Albion FC
 Manchester United FC 3 : 1 Southampton FC
+Newcastle United FC 1 : 4 AFC Bournemouth
+West Ham United FC 0 : 2 Crystal Palace FC
+Leicester City FC 0 : 2 Fulham FC
+Brentford FC 0 : 2 Liverpool FC
+Arsenal FC 2 : 2 Aston Villa FC
+Manchester United FC 1 : 3 Brighton & Hove Albion FC
+Nottingham Forest FC 3 : 2 Southampton FC
+Everton FC 3 : 2 Tottenham Hotspur FC
+Ipswich Town FC 0 : 6 Manchester City FC

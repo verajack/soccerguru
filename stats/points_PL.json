@@ -5,7 +5,7 @@
     ],
     [
         "LEICESTER CITY FC",
-        13
+        14
     ],
     [
         "IPSWICH TOWN FC",
@@ -17,66 +17,66 @@
     ],
     [
         "EVERTON FC",
-        17
-    ],
-    [
-        "MANCHESTER UNITED FC",
-        23
+        20
     ],
     [
         "TOTTENHAM HOTSPUR FC",
-        23
-    ],
-    [
-        "CRYSTAL PALACE FC",
         24
     ],
     [
-        "BRENTFORD FC",
-        25
+        "MANCHESTER UNITED FC",
+        26
     ],
     [
         "WEST HAM UNITED FC",
         26
     ],
     [
-        "BRIGHTON & HOVE ALBION FC",
+        "CRYSTAL PALACE FC",
+        27
+    ],
+    [
+        "BRENTFORD FC",
         28
     ],
     [
         "FULHAM FC",
-        30
-    ],
-    [
-        "ASTON VILLA FC",
-        32
-    ],
-    [
-        "MANCHESTER CITY FC",
-        32
-    ],
-    [
-        "AFC BOURNEMOUTH",
         33
+    ],
+    [
+        "BRIGHTON & HOVE ALBION FC",
+        34
     ],
     [
         "NEWCASTLE UNITED FC",
         35
     ],
     [
+        "ASTON VILLA FC",
+        36
+    ],
+    [
+        "AFC BOURNEMOUTH",
+        37
+    ],
+    [
         "CHELSEA FC",
         37
     ],
     [
+        "MANCHESTER CITY FC",
+        38
+    ],
+    [
         "ARSENAL FC",
-        40
+        44
     ],
     [
         "NOTTINGHAM FOREST FC",
-        40
+        44
     ],
     [
         "LIVERPOOL FC",
-        44
+        50
     ]
 ]
