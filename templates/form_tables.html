@@ -33,8 +33,6 @@
 									if they get too long. You can also remove the <p> entirely if you don't
 									need a subtitle.
 								-->
-								<h2><a href="#">Welcome {{name}}</a></h2>
-								<p>A Soccer predicition WebSite built using AI</p>
 							</header>
 							<div class="info">
 								<!--
@@ -57,7 +55,37 @@
 									<li><a href="#" class="icon brands fa-facebook-f">128</a></li>
 								</ul>
 							</div>
-							<a href="#" class="image featured"><img src="static/images/football-logo.jpg" size="10" alt="" /></a>
+							<img src="/static/images/{{ league_logo }}" alt="{{ league_logo }}" height="100">
+							<div>
+							<form action="/form_tables" method="post">
+									<select name="league_name" class="form-select">
+										<option value= "English Championship" SELECTED>English Championship</option>"
+										<option value= "English Premiership" SELECTED>English Premiership</option>"
+									</select>
+        							<button type="submit">Ok</button>
+
+							<div>
+								<table>
+							{% block body %}
+        					{# NOTE - loop through a dictionary's key and values with .iteritems #}
+									<th size="10">Team</th><th size="14">Form</th>
+									{% for team,results in form.items() %}
+									{# NOTE - display the team and the result #}
+										<tr><td>{{ team }}</td><td >{{ results }}</td></tr>
+									{% endfor %}
+							{% endblock %}
+									</table>
+							</div>
+							</form>
+                            <p><b><h1>Showing Results for {{selectedTeam}}</h1></b></p>
+							{% for post in all_posts: %}
+        						<div class="card ">
+            					<h3>{{ post }}</h3>
+        						</div>
+							{% endfor %}
+
+						</div>
+							</p>
 							<p>
 								<strong>Hello!</strong> You're looking at <strong>SoccerGuru</strong>, a fully AI integrated HTML5 site  designed by Patorado.
 								for <a href="http://html5up.net">SoccerGuru</a> It features a wealth of soccer statistics at your fingertips to assist in predicting Soccer results.

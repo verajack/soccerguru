@@ -163,7 +163,7 @@ def show_team_scores():
     else:
         league_name = "PL"
 
-    print(f'League of gents is {league_name}')
+    league_logo = f"{league_name}.jpg"
 
     with open(f'stats/results_{league_name}.txt') as f:
         results = f.read().splitlines()
@@ -185,9 +185,53 @@ def show_team_scores():
     # sorted_form = dict(sorted(form.items()))
 
     return render_template("main_football_page.html", all_posts=post_obj, all_teams=teams, form=form,
-                           current_league=league_name, counter=count,
+                           current_league=league_name, counter=count, league_logo=league_logo,
                            selectedTeam=name, current_month=current_month_text, current_day=current_day,
                            current_year=current_year_full)
+
+
+@app.route('/form_tables', methods=["GET", "POST"])
+def show_form_tables():
+    current_month_text = datetime.now().strftime('%B')
+    current_day = datetime.now().strftime('%d')
+    current_year_full = datetime.now().strftime('%Y')
+
+    count = 0
+    post_obj = []
+    teams = []
+    homeForm = {}
+    awayForm = {}
+    form = {}
+    name = ""
+
+    league_name = request.form.get("league_name")
+    if league_name == "English Championship":
+        league_name = "ELC"
+    else:
+        league_name = "PL"
+
+    league_logo = f"{league_name}.jpg"
+
+    print(f"League name is {league_name}")
+
+    print(f'League of gents is {league_name}')
+
+    with open(f'stats/results_{league_name}.txt') as f:
+        results = f.read().splitlines()
+
+    with open(f'stats/teams_{league_name}.txt') as f:
+        teams = f.read().splitlines()
+
+    with open(f'stats/team_form_{league_name}.json') as file:
+        form = json.load(file)
+
+    sorted_form = dict(sorted(form.items(), key=lambda x: calculate_points(x[1]), reverse=True))
+
+    return render_template("form_tables.html", form=sorted_form, league_logo=league_logo,
+                           current_league=league_name, counter=count,
+                           current_month=current_month_text, current_day=current_day,
+                           current_year=current_year_full)
+
 
 
 @app.route('/championship', methods=["GET", "POST"])
@@ -204,7 +248,7 @@ def show_championship():
     awayForm = {}
     form = {}
     name = ""
-
+    league_logo = "ELC.jpg"
     with open(f'stats/results_{league_name}.txt') as f:
         results = f.read().splitlines()
 
@@ -221,7 +265,7 @@ def show_championship():
     return render_template("main_football_page.html", all_posts=post_obj, all_teams=teams, form=sorted_form,
                            counter=count,
                            selectedTeam=name, current_month=current_month_text, current_day=current_day,
-                           current_league=league_name,
+                           current_league=league_name, league_logo=league_logo,
                            current_year=current_year_full)
 
 
@@ -239,6 +283,7 @@ def show_premiership():
     awayForm = {}
     form = {}
     name = ""
+    league_logo = "PL.jpg"
 
     with open(f'stats/results_{league_name}.txt') as f:
         results = f.read().splitlines()
@@ -253,7 +298,7 @@ def show_premiership():
 
     return render_template("main_football_page.html", all_posts=post_obj, all_teams=teams, form=sorted_form,
                            counter=count,
-                           selectedTeam=name, current_month=current_month_text, current_day=current_day,
+                           selectedTeam=name, current_month=current_month_text, current_day=current_day, league_logo=league_logo,
                            current_league=league_name,
                            current_year=current_year_full)
 

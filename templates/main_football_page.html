@@ -55,7 +55,7 @@
 									<li><a href="#" class="icon brands fa-facebook-f">128</a></li>
 								</ul>
 							</div>
-
+							<img src="/static/images/{{ league_logo }}" alt="{{ league_logo }}" height="100">
 							<p><b>Select The Team Below to see results.</b>
 							<div>
 							<form action="/teams" method="post">
@@ -68,18 +68,6 @@
 									</select>
         							<button type="submit">Ok</button>
 
-							<div>
-								<table>
-							{% block body %}
-        					{# NOTE - loop through a dictionary's key and values with .iteritems #}
-									<th size="10">Team</th><th size="14">Form</th>
-									{% for team,results in form.items() %}
-									{# NOTE - display the team and the result #}
-										<tr><td>{{ team }}</td><td >{{ results }}</td></tr>
-									{% endfor %}
-							{% endblock %}
-									</table>
-							</div>
 							</form>
                             <p><b><h1>Showing Results for {{selectedTeam}}</h1></b></p>
 							{% for post in all_posts: %}
@@ -152,6 +140,7 @@
 							<li class="current"><a href="#">Latest Post</a></li>
 							<li><a href="http://127.0.0.1:5000/championship#">UK Championship</a></li>
 							<li><a href="http://127.0.0.1:5000/premier_league#">UK Premier League</a></li>
+							<li><a href="http://127.0.0.1:5000/form_tables#">Form Tables</a></li>
 							<li><a href="#">About Me</a></li>
 							<li><a href="#">Contact Me</a></li>
 						</ul>
