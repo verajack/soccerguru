@@ -57,6 +57,23 @@ def calculate_points(form):
     return points
 
 
+# Function to process and sort the dictionary
+def process_teams(teams_form, form_history):
+    # Slice the form to only include the last `form_history` results
+    processed_teams = {
+        team: form[-form_history:] for team, form in teams_form.items()
+    }
+
+    # Sort the dictionary by points based on the sliced form
+    sorted_teams = dict(sorted(
+        processed_teams.items(),
+        key=lambda x: calculate_points(x[1]),
+        reverse=True
+    ))
+
+    return sorted_teams
+
+
 @app.route('/')
 def home():
     return render_template("index.html", logged_in=current_user.is_authenticated)
@@ -204,7 +221,8 @@ def show_form_tables():
     form = {}
     name = ""
 
-    league_name = request.form.get("league_name")
+    league_name = request.form.get("league_name", default="PL")
+
     if league_name == "English Championship":
         league_name = "ELC"
     else:
@@ -223,15 +241,19 @@ def show_form_tables():
         teams = f.read().splitlines()
 
     with open(f'stats/team_form_{league_name}.json') as file:
-        form = json.load(file)
+        teams_form = json.load(file)
 
-    sorted_form = dict(sorted(form.items(), key=lambda x: calculate_points(x[1]), reverse=True))
+    form_history = int(request.form.get("form_history", default=len(teams_form)))
+    print(f"Form history is {form_history}")
+    # sorted_form = dict(sorted(form.items(), key=lambda x: calculate_points(x[1]), reverse=True))
+    # Sort the dictionary based on the calculated points
+    # Process and sort the teams
+    sorted_form = process_teams(teams_form, form_history)
 
-    return render_template("form_tables.html", form=sorted_form, league_logo=league_logo,
+    return render_template("form_tables.html", form=sorted_form, league_logo=league_logo, form_history=form_history,
                            current_league=league_name, counter=count,
                            current_month=current_month_text, current_day=current_day,
                            current_year=current_year_full)
-
 
 
 @app.route('/championship', methods=["GET", "POST"])
@@ -298,7 +320,8 @@ def show_premiership():
 
     return render_template("main_football_page.html", all_posts=post_obj, all_teams=teams, form=sorted_form,
                            counter=count,
-                           selectedTeam=name, current_month=current_month_text, current_day=current_day, league_logo=league_logo,
+                           selectedTeam=name, current_month=current_month_text, current_day=current_day,
+                           league_logo=league_logo,
                            current_league=league_name,
                            current_year=current_year_full)
 
