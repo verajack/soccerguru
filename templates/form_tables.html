@@ -59,12 +59,15 @@
 							<div>
 							<form action="/form_tables" method="post">
 									<select name="league_name" class="form-select">
-										<option value= "English Championship" SELECTED>English Championship</option>"
-										<option value= "English Premiership" SELECTED>English Premiership</option>"
+										<option value="English Premiership" {{ SELECTED if current_league == PL }}>English Premiership</option>
+										<option value="English Championship" {{ SELECTED if current_league == ELC }}>English Championship</option>
 									</select>
 									<select name = "form_history" class="form-select">
-										<option value= "10" SELECTED>10</option>"
-										<option value= "5">5</option>"
+										{% for i in range(1, games_played + 1) %}
+            									<option value="{{ i }}">{{ i }}</option>
+										{% endfor %}
+
+
 									</select>
         							<button type="submit">Ok</button>
 

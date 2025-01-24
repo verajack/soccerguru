@@ -243,6 +243,8 @@ def show_form_tables():
     with open(f'stats/team_form_{league_name}.json') as file:
         teams_form = json.load(file)
 
+    games_played = len(teams_form)
+
     form_history = int(request.form.get("form_history", default=len(teams_form)))
     print(f"Form history is {form_history}")
     # sorted_form = dict(sorted(form.items(), key=lambda x: calculate_points(x[1]), reverse=True))
@@ -250,7 +252,7 @@ def show_form_tables():
     # Process and sort the teams
     sorted_form = process_teams(teams_form, form_history)
 
-    return render_template("form_tables.html", form=sorted_form, league_logo=league_logo, form_history=form_history,
+    return render_template("form_tables.html", form=sorted_form, league_logo=league_logo, form_history=form_history, games_played=games_played,
                            current_league=league_name, counter=count,
                            current_month=current_month_text, current_day=current_day,
                            current_year=current_year_full)
