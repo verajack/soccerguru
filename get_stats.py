@@ -140,7 +140,7 @@ def get_stats(league_name):
     sorted_points = sorted(points.items(), key=lambda x: x[1])
     sorted_form = dict(sorted(form.items(), key=lambda x: calculate_points(x[1]), reverse=True))
     sorted_home_form = dict(sorted(home_form.items(), key=lambda x: calculate_points(x[1]), reverse=True))
-    sorted_away_form = dict(sorted(home_form.items(), key=lambda x: calculate_points(x[1]), reverse=True))
+    sorted_away_form = dict(sorted(away_form.items(), key=lambda x: calculate_points(x[1]), reverse=True))
 
     with open(f'stats/teams_{league_name}.txt', 'w') as f:
         for line in teams:
