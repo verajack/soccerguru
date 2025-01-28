@@ -333,3 +333,4 @@ Leeds United FC 2 : 0 Norwich City FC
 Portsmouth FC 3 : 1 Stoke City FC
 Sheffield Wednesday FC 2 : 2 Bristol City FC
 Plymouth Argyle FC 0 : 5 Burnley FC
+Sheffield United FC 0 : 3 Hull City AFC
