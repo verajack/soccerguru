@@ -296,7 +296,6 @@ def fixtures():
     name = ""
 
     league_text = request.form.get("league_name", default="English Premiership")
-    form_type = request.form.get("form_type", default="all_form")
 
     if league_text == "English Championship":
         league_name = "ELC"
@@ -307,49 +306,17 @@ def fixtures():
 
     print(f"League name is {league_name}")
 
-    print(f'League of gents is {league_name}')
+    with open(f'stats/fixtures_{league_name}.txt') as file:
+        match_fixtures = file.read().splitlines()
 
-    with open(f'stats/results_{league_name}.txt') as f:
-        results = f.read().splitlines()
-
-    with open(f'stats/teams_{league_name}.txt') as f:
-        teams = f.read().splitlines()
-
-    with open(f'stats/home_form_{league_name}.json') as file:
-        home_form = json.load(file)
-
-    with open(f'stats/away_form_{league_name}.json') as file:
-        away_form = json.load(file)
-
-    with open(f'stats/team_form_{league_name}.json') as file:
-        teams_form = json.load(file)
-
-    games_played = len(teams_form)
-
-    if form_type == "all_form":
-        form_history = int(request.form.get("form_history", default=5))
-        sorted_form = process_teams(teams_form, form_history)
-    elif form_type == "home_form":
-        form_history = int(request.form.get("form_history", default=5))
-        sorted_form = process_teams(home_form, form_history)
-    elif form_type == "away_form":
-        form_history = int(request.form.get("form_history", default=5))
-        sorted_form = process_teams(away_form, form_history)
-
-    print(f"Form type is {form_type}")
-    print(f"Form history is {form_history}")
-
-    form_text = f"Displaying {form_type.replace('_form', '')} games for the last {form_history} matches from the {league_text}"
-
-    print(form_text)
+    fixtures_text = f"Displaying fixtures for the {league_text}"
 
     # sorted_form = dict(sorted(form.items(), key=lambda x: calculate_points(x[1]), reverse=True))
     # Sort the dictionary based on the calculated points
     # Process and sort the teams
 
-    return render_template("form_tables.html", form=sorted_form,
-                           league_logo=league_logo, form_history=form_history, form_text=form_text,
-                           form_type=form_type, games_played=games_played,
+    return render_template("fixtures.html",
+                           league_logo=league_logo, fixtures=match_fixtures, form_text=fixtures_text,
                            current_league=league_name, counter=count,
                            current_month=current_month_text, current_day=current_day,
                            current_year=current_year_full)

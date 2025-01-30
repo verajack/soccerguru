@@ -4,7 +4,30 @@ def get_stats(league_name):
     import json
     import requests
 
-    uri = f'https://api.football-data.org/v4/competitions/{league_name}/matches?status=FINISHED'
+    matchday=1
+
+    match_results = f'https://api.football-data.org/v4/competitions/{league_name}/matches?status=FINISHED'
+
+    if league_name == "PL":
+        matchday = 24
+    elif league_name == "ELC":
+        matchday = 24
+
+    match_fixtures = f'https://api.football-data.org/v4/competitions/{league_name}/matches?matchday={matchday}'
+    headers = {'X-Auth-Token': '611a49203eca499a90945814f14d0d8f'}
+
+    results_response = requests.get(match_results, headers=headers)
+    fixtures_response = requests.get(match_fixtures, headers=headers)
+
+    # Extract the results and build form and results outputs
+
+    for match in results_response.json()["matches"]:
+        home_team = str(match['homeTeam']['name']).upper()
+        away_team = str(match['awayTeam']['name']).upper()
+        match_date = str(match['utcDate'])
+        print(f"{home_team} versus {away_team} on {match_date}")
+
+        print(match)
     headers = {'X-Auth-Token': '611a49203eca499a90945814f14d0d8f'}
     current_month_text = datetime.now().strftime('%B')
     current_day = datetime.now().strftime('%d')
@@ -19,6 +42,13 @@ def get_stats(league_name):
     away_points = {}
     points = {}
     form = {}
+    fixtures = []
+
+    # Function to add the correct suffix to the day
+    def add_suffix(day):
+        if 11 <= day <= 13:
+            return "th"
+        return {1: "st", 2: "nd", 3: "rd"}.get(day % 10, "th")
 
     # Function to calculate points from the form
     def calculate_points(form):
@@ -31,8 +61,7 @@ def get_stats(league_name):
             # Loss (L) contributes 0 points, so we skip it
         return points
 
-
-    response = requests.get(uri, headers=headers)
+    response = requests.get(match_results, headers=headers)
     for match in response.json()['matches']:
 
         count = count + 1
@@ -142,6 +171,21 @@ def get_stats(league_name):
     sorted_home_form = dict(sorted(home_form.items(), key=lambda x: calculate_points(x[1]), reverse=True))
     sorted_away_form = dict(sorted(away_form.items(), key=lambda x: calculate_points(x[1]), reverse=True))
 
+    fixtures_response = requests.get(match_fixtures, headers=headers)
+
+    for match in fixtures_response.json()["matches"]:
+        home_team = str(match['homeTeam']['name']).upper()
+        away_team = str(match['awayTeam']['name']).upper()
+        match_date = str(match['utcDate'])
+        # Convert to datetime object
+        dt = datetime.strptime(match_date, "%Y-%m-%dT%H:%M:%SZ")
+        # Get the day with suffix
+        day_with_suffix = f"{dt.day}{add_suffix(dt.day)}"
+        # Format the datetime object
+        readable_date = dt.strftime(f"%I:%M %p - {day_with_suffix} of %B %Y")
+        print(f"{home_team} versus {away_team} on {readable_date}")
+        fixtures.append(f"{home_team} versus {away_team} on {readable_date}")
+
     with open(f'stats/teams_{league_name}.txt', 'w') as f:
         for line in teams:
             f.write(f"{line}\n")
@@ -167,6 +211,10 @@ def get_stats(league_name):
 
     with open(f'stats/away_points_{league_name}.json', 'w') as fp:
         json.dump(away_points, fp, indent=4)
+
+    with open(f'stats/fixtures_{league_name}.txt', 'w') as f:
+        for line in fixtures:
+            f.write(f"{line}\n")
 
 
 leagues = ('PL', 'ELC')

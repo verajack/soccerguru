@@ -344,3 +344,4 @@ Preston North End FC 2 : 1 Middlesbrough FC
 Queens Park Rangers FC 0 : 2 Sheffield Wednesday FC
 Sunderland AFC 2 : 2 Plymouth Argyle FC
 West Bromwich Albion FC 5 : 1 Portsmouth FC
+Burnley FC 0 : 0 Leeds United FC
