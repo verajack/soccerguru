@@ -229,7 +229,7 @@ def show_form_tables():
     else:
         league_name = "PL"
 
-    league_logo = f"{league_name}.jpg"
+    league_logo = f"{league_name}.png"
 
     print(f"League name is {league_name}")
 
@@ -253,13 +253,87 @@ def show_form_tables():
     games_played = len(teams_form)
 
     if form_type == "all_form":
-        form_history = int(request.form.get("form_history", default=50))
+        form_history = int(request.form.get("form_history", default=5))
         sorted_form = process_teams(teams_form, form_history)
     elif form_type == "home_form":
-        form_history = int(request.form.get("form_history", default=25))
+        form_history = int(request.form.get("form_history", default=5))
         sorted_form = process_teams(home_form, form_history)
     elif form_type == "away_form":
-        form_history = int(request.form.get("form_history", default=25))
+        form_history = int(request.form.get("form_history", default=5))
+        sorted_form = process_teams(away_form, form_history)
+
+    print(f"Form type is {form_type}")
+    print(f"Form history is {form_history}")
+
+    form_text = f"Displaying {form_type.replace('_form', '')} games for the last {form_history} matches from the {league_text}"
+
+    print(form_text)
+
+    # sorted_form = dict(sorted(form.items(), key=lambda x: calculate_points(x[1]), reverse=True))
+    # Sort the dictionary based on the calculated points
+    # Process and sort the teams
+
+    return render_template("form_tables.html", form=sorted_form,
+                           league_logo=league_logo, form_history=form_history, form_text=form_text,
+                           form_type=form_type, games_played=games_played,
+                           current_league=league_name, counter=count,
+                           current_month=current_month_text, current_day=current_day,
+                           current_year=current_year_full)
+
+
+@app.route('/fixtures', methods=["GET", "POST"])
+def fixtures():
+    current_month_text = datetime.now().strftime('%B')
+    current_day = datetime.now().strftime('%d')
+    current_year_full = datetime.now().strftime('%Y')
+
+    count = 0
+    post_obj = []
+    teams = []
+    homeForm = {}
+    awayForm = {}
+    form = {}
+    name = ""
+
+    league_text = request.form.get("league_name", default="English Premiership")
+    form_type = request.form.get("form_type", default="all_form")
+
+    if league_text == "English Championship":
+        league_name = "ELC"
+    else:
+        league_name = "PL"
+
+    league_logo = f"{league_name}.png"
+
+    print(f"League name is {league_name}")
+
+    print(f'League of gents is {league_name}')
+
+    with open(f'stats/results_{league_name}.txt') as f:
+        results = f.read().splitlines()
+
+    with open(f'stats/teams_{league_name}.txt') as f:
+        teams = f.read().splitlines()
+
+    with open(f'stats/home_form_{league_name}.json') as file:
+        home_form = json.load(file)
+
+    with open(f'stats/away_form_{league_name}.json') as file:
+        away_form = json.load(file)
+
+    with open(f'stats/team_form_{league_name}.json') as file:
+        teams_form = json.load(file)
+
+    games_played = len(teams_form)
+
+    if form_type == "all_form":
+        form_history = int(request.form.get("form_history", default=5))
+        sorted_form = process_teams(teams_form, form_history)
+    elif form_type == "home_form":
+        form_history = int(request.form.get("form_history", default=5))
+        sorted_form = process_teams(home_form, form_history)
+    elif form_type == "away_form":
+        form_history = int(request.form.get("form_history", default=5))
         sorted_form = process_teams(away_form, form_history)
 
     print(f"Form type is {form_type}")
@@ -295,7 +369,7 @@ def show_championship():
     awayForm = {}
     form = {}
     name = ""
-    league_logo = "ELC.jpg"
+    league_logo = "ELC.png"
     with open(f'stats/results_{league_name}.txt') as f:
         results = f.read().splitlines()
 
@@ -330,7 +404,7 @@ def show_premiership():
     awayForm = {}
     form = {}
     name = ""
-    league_logo = "PL.jpg"
+    league_logo = "PL.png"
 
     with open(f'stats/results_{league_name}.txt') as f:
         results = f.read().splitlines()

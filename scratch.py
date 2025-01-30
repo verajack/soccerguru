@@ -1,45 +1,17 @@
-# Variable to define how many recent results to consider
-form_history = 5
-# Sample dictionary
-teams_form = {
-    "TeamA": "WDLWWDL",
-    "TeamB": "WDWLLWD",
-    "TeamC": "LLLLDDD",
-    "TeamD": "WWWWWLW"
-}
+import requests
+import json
 
-# Function to calculate points from the form
-def calculate_points(form):
-    points = 0
-    for result in form:
-        if result == 'W':
-            points += 3
-        elif result == 'D':
-            points += 1
-        # Loss (L) contributes 0 points, so we skip it
-    return points
+# uri = 'https://api.football-data.org/v4/matches'
+uri = 'https://api.football-data.org/v4/competitions/PL/matches?matchday=24'
+headers = {'X-Auth-Token': '611a49203eca499a90945814f14d0d8f'}
 
+response = requests.get(uri, headers=headers)
 
-# Function to process and sort the dictionary
-def process_teams(teams_form, form_history):
-    # Slice the form to only include the last `form_history` results
-    processed_teams = {
-        team: form[-form_history:] for team, form in teams_form.items()
-    }
+for match in response.json()["matches"]:
+    home_team = str(match['homeTeam']['name']).upper()
+    away_team = str(match['awayTeam']['name']).upper()
+    match_date= str(match['utcDate'])
+    print(f"{home_team} versus {away_team} on {match_date}")
 
-    # Sort the dictionary by points based on the sliced form
-    sorted_teams = dict(sorted(
-        processed_teams.items(),
-        key=lambda x: calculate_points(x[1]),
-        reverse=True
-    ))
+    print(match)
 
-    return sorted_teams
-
-
-# Sort the dictionary based on the calculated points
-sorted_teams = dict(sorted(teams_form.items(), key=lambda x: calculate_points(x[1]), reverse=True))
-
-
-# Display the sorted dictionary
-print(sorted_teams)

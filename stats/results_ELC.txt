@@ -334,3 +334,13 @@ Portsmouth FC 3 : 1 Stoke City FC
 Sheffield Wednesday FC 2 : 2 Bristol City FC
 Plymouth Argyle FC 0 : 5 Burnley FC
 Sheffield United FC 0 : 3 Hull City AFC
+Luton Town FC 0 : 1 Millwall FC
+Norwich City FC 5 : 1 Swansea City AFC
+Stoke City FC 0 : 0 Oxford United FC
+Bristol City FC 2 : 1 Blackburn Rovers FC
+Cardiff City FC 2 : 1 Derby County FC
+Coventry City FC 2 : 1 Watford FC
+Preston North End FC 2 : 1 Middlesbrough FC
+Queens Park Rangers FC 0 : 2 Sheffield Wednesday FC
+Sunderland AFC 2 : 2 Plymouth Argyle FC
+West Bromwich Albion FC 5 : 1 Portsmouth FC

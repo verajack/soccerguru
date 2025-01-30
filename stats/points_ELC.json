@@ -1,7 +1,7 @@
 [
     [
         "PLYMOUTH ARGYLE FC",
-        21
+        22
     ],
     [
         "LUTON TOWN FC",
@@ -12,15 +12,7 @@
         27
     ],
     [
-        "CARDIFF CITY FC",
-        28
-    ],
-    [
         "HULL CITY AFC",
-        28
-    ],
-    [
-        "STOKE CITY FC",
         28
     ],
     [
@@ -28,39 +20,35 @@
         29
     ],
     [
-        "MILLWALL FC",
-        31
+        "STOKE CITY FC",
+        29
     ],
     [
-        "PRESTON NORTH END FC",
-        34
+        "CARDIFF CITY FC",
+        31
     ],
     [
         "SWANSEA CITY AFC",
         34
     ],
     [
+        "MILLWALL FC",
+        34
+    ],
+    [
         "OXFORD UNITED FC",
-        35
-    ],
-    [
-        "COVENTRY CITY FC",
-        35
-    ],
-    [
-        "NORWICH CITY FC",
         36
     ],
     [
-        "BRISTOL CITY FC",
-        38
+        "PRESTON NORTH END FC",
+        37
     ],
     [
         "QUEENS PARK RANGERS FC",
         38
     ],
     [
-        "SHEFFIELD WEDNESDAY FC",
+        "COVENTRY CITY FC",
         38
     ],
     [
@@ -68,11 +56,19 @@
         39
     ],
     [
+        "NORWICH CITY FC",
+        39
+    ],
+    [
+        "BRISTOL CITY FC",
+        41
+    ],
+    [
         "WATFORD FC",
         41
     ],
     [
-        "WEST BROMWICH ALBION FC",
+        "SHEFFIELD WEDNESDAY FC",
         41
     ],
     [
@@ -80,8 +76,12 @@
         44
     ],
     [
+        "WEST BROMWICH ALBION FC",
+        44
+    ],
+    [
         "SUNDERLAND AFC",
-        54
+        55
     ],
     [
         "BURNLEY FC",
