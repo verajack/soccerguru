@@ -1,3 +1,5 @@
+import sqlite3
+
 from flask import Flask, render_template, request, url_for, redirect, flash, send_from_directory
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
@@ -8,6 +10,7 @@ import requests
 from datetime import datetime
 import json
 import re
+import sqlite3
 
 match = []
 
@@ -73,6 +76,29 @@ def process_teams(teams_form, form_history):
 
     return sorted_teams
 
+# Function to parse matches
+def parse_matches(match_list):
+    matches = []
+    for match in match_list:
+        parts = match.split(" on ")
+        teams = parts[0].split(" versus ")
+        match_date = parts[1] if len(parts) > 1 else "Unknown Date"
+        matches.append((teams[0].strip(), teams[1].strip(), match_date))
+    return matches
+
+# Sample team stats dictionary
+team_stats = {
+    "STOKE CITY FC": {"Wins": 8, "Losses": 6, "Draws": 4, "Points": 28},
+    "SUNDERLAND AFC": {"Wins": 10, "Losses": 5, "Draws": 3, "Points": 33},
+    "SWANSEA CITY AFC": {"Wins": 7, "Losses": 7, "Draws": 4, "Points": 25},
+    "LUTON TOWN FC": {"Wins": 6, "Losses": 8, "Draws": 4, "Points": 22},
+    "WATFORD FC": {"Wins": 9, "Losses": 5, "Draws": 4, "Points": 31},
+    "CARDIFF CITY FC": {"Wins": 7, "Losses": 6, "Draws": 5, "Points": 26},
+    "DERBY COUNTY FC": {"Wins": 8, "Losses": 7, "Draws": 3, "Points": 27},
+    "LEEDS UNITED FC": {"Wins": 11, "Losses": 4, "Draws": 3, "Points": 36},
+    "MIDDLESBROUGH FC": {"Wins": 10, "Losses": 6, "Draws": 2, "Points": 32},
+    "BURNLEY FC": {"Wins": 12, "Losses": 3, "Draws": 3, "Points": 39},
+}
 
 @app.route('/')
 def home():
@@ -306,9 +332,20 @@ def fixtures():
 
     print(f"League name is {league_name}")
 
-    with open(f'stats/fixtures_{league_name}.txt') as file:
-        match_fixtures = file.read().splitlines()
+    conn = sqlite3.connect('/Users/jason/PycharmProjects/soccer/templates/football_matches.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT home_team, away_team, match_date 
+        FROM matches 
+        WHERE league = ?
+    ''', (league_name, ))
+    match_fixtures = cursor.fetchall()
+    conn.close()
 
+    # with open(f'stats/fixtures_{league_name}.txt') as file:
+    #     match_fixtures = file.read().splitlines()
+
+    # matches = parse_matches(match_fixtures)
     fixtures_text = f"Displaying fixtures for the {league_text}"
 
     # sorted_form = dict(sorted(form.items(), key=lambda x: calculate_points(x[1]), reverse=True))
@@ -321,6 +358,15 @@ def fixtures():
                            current_month=current_month_text, current_day=current_day,
                            current_year=current_year_full)
 
+
+
+
+@app.route("/teams/<team_name>")
+def team_page(team_name):
+    team_name = team_name.replace("-", " ")  # Convert URL-friendly name back
+    stats = team_stats.get(team_name, None)
+    # return render_template("team.html", team=team_name, stats=stats)
+    return render_template("team.html", team=team_name)
 
 @app.route('/championship', methods=["GET", "POST"])
 def show_championship():

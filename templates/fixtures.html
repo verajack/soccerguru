@@ -67,12 +67,17 @@
         							<button type="submit">Ok</button>
 
 							</form>
-                            <p><b><h1>Showing Fixtures for {{selectedTeam}}</h1></b></p>
-							{% for fixture in fixtures: %}
-        						<div class="card ">
-            					<h3>{{ fixture }}</h3>
-        						</div>
-							{% endfor %}
+<h1>Upcoming Matches</h1>
+    <ul>
+        {% for home, away, match_date in fixtures %}
+            <li>
+                <a href="{{ url_for('team_page', team_name=home.replace(' ', '-')) }}">{{ home }}</a>
+                versus
+                <a href="{{ url_for('team_page', team_name=away.replace(' ', '-')) }}">{{ away }}</a>
+                - {{ match_date }}
+            </li>
+        {% endfor %}
+    </ul>
 
 						</div>
 							</p>
