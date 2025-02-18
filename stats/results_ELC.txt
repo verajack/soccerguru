@@ -358,3 +358,35 @@ Portsmouth FC 0 : 0 Burnley FC
 Sheffield Wednesday FC 1 : 1 Luton Town FC
 Swansea City AFC 0 : 2 Coventry City FC
 Middlesbrough FC 2 : 3 Sunderland AFC
+Burnley FC 1 : 0 Oxford United FC
+Queens Park Rangers FC 2 : 1 Blackburn Rovers FC
+Coventry City FC 0 : 2 Leeds United FC
+Sunderland AFC 2 : 2 Watford FC
+West Bromwich Albion FC 2 : 1 Sheffield Wednesday FC
+Norwich City FC 1 : 1 Derby County FC
+Sheffield United FC 2 : 1 Portsmouth FC
+Bristol City FC 0 : 1 Swansea City AFC
+Coventry City FC 1 : 0 Queens Park Rangers FC
+Derby County FC 0 : 0 Oxford United FC
+Portsmouth FC 2 : 1 Cardiff City FC
+Watford FC 0 : 4 Leeds United FC
+Norwich City FC 0 : 1 Preston North End FC
+Bristol City FC 2 : 0 Stoke City FC
+Plymouth Argyle FC 5 : 1 Millwall FC
+Swansea City AFC 0 : 1 Sheffield Wednesday FC
+Burnley FC 2 : 0 Hull City AFC
+Sunderland AFC 2 : 0 Luton Town FC
+Sheffield United FC 3 : 1 Middlesbrough FC
+West Bromwich Albion FC 0 : 2 Blackburn Rovers FC
+Queens Park Rangers FC 4 : 0 Derby County FC
+Cardiff City FC 1 : 1 Bristol City FC
+Oxford United FC 0 : 2 Portsmouth FC
+Preston North End FC 0 : 0 Burnley FC
+Blackburn Rovers FC 2 : 0 Plymouth Argyle FC
+Hull City AFC 1 : 1 Norwich City FC
+Luton Town FC 0 : 1 Sheffield United FC
+Middlesbrough FC 0 : 1 Watford FC
+Millwall FC 1 : 1 West Bromwich Albion FC
+Sheffield Wednesday FC 1 : 2 Coventry City FC
+Stoke City FC 3 : 1 Swansea City AFC
+Leeds United FC 2 : 1 Sunderland AFC
