@@ -345,3 +345,16 @@ Queens Park Rangers FC 0 : 2 Sheffield Wednesday FC
 Sunderland AFC 2 : 2 Plymouth Argyle FC
 West Bromwich Albion FC 5 : 1 Portsmouth FC
 Burnley FC 0 : 0 Leeds United FC
+Portsmouth FC 0 : 1 Millwall FC
+Blackburn Rovers FC 2 : 1 Preston North End FC
+Oxford United FC 1 : 1 Bristol City FC
+Plymouth Argyle FC 2 : 1 West Bromwich Albion FC
+Watford FC 0 : 1 Norwich City FC
+Derby County FC 0 : 1 Sheffield United FC
+Hull City AFC 1 : 2 Stoke City FC
+Leeds United FC 7 : 0 Cardiff City FC
+Millwall FC 2 : 1 Queens Park Rangers FC
+Portsmouth FC 0 : 0 Burnley FC
+Sheffield Wednesday FC 1 : 1 Luton Town FC
+Swansea City AFC 0 : 2 Coventry City FC
+Middlesbrough FC 2 : 3 Sunderland AFC

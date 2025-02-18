@@ -227,3 +227,13 @@ Crystal Palace FC 1 : 2 Brentford FC
 Tottenham Hotspur FC 1 : 2 Leicester City FC
 Aston Villa FC 1 : 1 West Ham United FC
 Fulham FC 0 : 1 Manchester United FC
+Nottingham Forest FC 7 : 0 Brighton & Hove Albion FC
+Newcastle United FC 1 : 2 Fulham FC
+Everton FC 4 : 0 Leicester City FC
+AFC Bournemouth 0 : 2 Liverpool FC
+Ipswich Town FC 1 : 2 Southampton FC
+Wolverhampton Wanderers FC 2 : 0 Aston Villa FC
+Manchester United FC 0 : 2 Crystal Palace FC
+Brentford FC 0 : 2 Tottenham Hotspur FC
+Arsenal FC 5 : 1 Manchester City FC
+Chelsea FC 2 : 1 West Ham United FC

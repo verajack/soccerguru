@@ -1,14 +1,10 @@
 [
     [
         "SOUTHAMPTON FC",
-        6
+        9
     ],
     [
         "IPSWICH TOWN FC",
-        16
-    ],
-    [
-        "WOLVERHAMPTON WANDERERS FC",
         16
     ],
     [
@@ -16,19 +12,19 @@
         17
     ],
     [
-        "EVERTON FC",
-        23
+        "WOLVERHAMPTON WANDERERS FC",
+        19
     ],
     [
-        "TOTTENHAM HOTSPUR FC",
-        24
+        "EVERTON FC",
+        26
     ],
     [
         "WEST HAM UNITED FC",
         27
     ],
     [
-        "CRYSTAL PALACE FC",
+        "TOTTENHAM HOTSPUR FC",
         27
     ],
     [
@@ -36,16 +32,20 @@
         29
     ],
     [
+        "CRYSTAL PALACE FC",
+        30
+    ],
+    [
         "BRENTFORD FC",
         31
     ],
     [
-        "FULHAM FC",
-        33
-    ],
-    [
         "BRIGHTON & HOVE ALBION FC",
         34
+    ],
+    [
+        "FULHAM FC",
+        36
     ],
     [
         "ASTON VILLA FC",
@@ -60,23 +60,23 @@
         40
     ],
     [
-        "CHELSEA FC",
-        40
-    ],
-    [
         "MANCHESTER CITY FC",
         41
     ],
     [
-        "NOTTINGHAM FOREST FC",
-        44
+        "CHELSEA FC",
+        43
     ],
     [
-        "ARSENAL FC",
+        "NOTTINGHAM FOREST FC",
         47
     ],
     [
+        "ARSENAL FC",
+        50
+    ],
+    [
         "LIVERPOOL FC",
-        53
+        56
     ]
 ]

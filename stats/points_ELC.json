@@ -1,14 +1,14 @@
 [
     [
         "PLYMOUTH ARGYLE FC",
-        22
-    ],
-    [
-        "LUTON TOWN FC",
-        26
+        25
     ],
     [
         "DERBY COUNTY FC",
+        27
+    ],
+    [
+        "LUTON TOWN FC",
         27
     ],
     [
@@ -17,30 +17,26 @@
     ],
     [
         "PORTSMOUTH FC",
-        29
-    ],
-    [
-        "STOKE CITY FC",
-        29
+        30
     ],
     [
         "CARDIFF CITY FC",
         31
     ],
     [
+        "STOKE CITY FC",
+        32
+    ],
+    [
         "SWANSEA CITY AFC",
         34
     ],
     [
-        "MILLWALL FC",
-        34
+        "PRESTON NORTH END FC",
+        37
     ],
     [
         "OXFORD UNITED FC",
-        36
-    ],
-    [
-        "PRESTON NORTH END FC",
         37
     ],
     [
@@ -48,28 +44,32 @@
         38
     ],
     [
-        "COVENTRY CITY FC",
-        38
-    ],
-    [
-        "BLACKBURN ROVERS FC",
-        39
-    ],
-    [
-        "NORWICH CITY FC",
-        39
-    ],
-    [
-        "BRISTOL CITY FC",
-        41
+        "MILLWALL FC",
+        40
     ],
     [
         "WATFORD FC",
         41
     ],
     [
-        "SHEFFIELD WEDNESDAY FC",
+        "COVENTRY CITY FC",
         41
+    ],
+    [
+        "BLACKBURN ROVERS FC",
+        42
+    ],
+    [
+        "BRISTOL CITY FC",
+        42
+    ],
+    [
+        "NORWICH CITY FC",
+        42
+    ],
+    [
+        "SHEFFIELD WEDNESDAY FC",
+        42
     ],
     [
         "MIDDLESBROUGH FC",
@@ -81,18 +81,18 @@
     ],
     [
         "SUNDERLAND AFC",
-        55
+        58
     ],
     [
         "BURNLEY FC",
-        57
+        58
     ],
     [
         "LEEDS UNITED FC",
-        59
+        62
     ],
     [
         "SHEFFIELD UNITED FC",
-        60
+        63
     ]
 ]

@@ -1,12 +1,35 @@
-def get_stats(league_name):
+import sqlite3
+from datetime import datetime
+import json
+import requests
+
+
+# Function to add the correct suffix to the day
+def add_suffix(day):
+    if 11 <= day <= 13:
+        return "th"
+    return {1: "st", 2: "nd", 3: "rd"}.get(day % 10, "th")
+
+
+# Function to calculate points from the form
+def calculate_points(form):
+    points = 0
+    for result in form:
+        if result == 'W':
+            points += 3
+        elif result == 'D':
+            points += 1
+        # Loss (L) contributes 0 points, so we skip it
+    return points
+
+
+def get_fixtures(league_name):
+    conn = sqlite3.connect('/Users/jason/PycharmProjects/soccer/templates/football_matches.db')
+    cursor = conn.cursor()
+
     print(f"League is {league_name}")
-    from datetime import datetime
-    import json
-    import requests
 
-    matchday=1
-
-    match_results = f'https://api.football-data.org/v4/competitions/{league_name}/matches?status=FINISHED'
+    matchday = 1
 
     if league_name == "PL":
         matchday = 24
@@ -16,19 +39,42 @@ def get_stats(league_name):
     match_fixtures = f'https://api.football-data.org/v4/competitions/{league_name}/matches?matchday={matchday}'
     headers = {'X-Auth-Token': '611a49203eca499a90945814f14d0d8f'}
 
-    results_response = requests.get(match_results, headers=headers)
     fixtures_response = requests.get(match_fixtures, headers=headers)
+    teams = []
+    fixtures = []
 
-    # Extract the results and build form and results outputs
-
-    for match in results_response.json()["matches"]:
+    for match in fixtures_response.json()["matches"]:
         home_team = str(match['homeTeam']['name']).upper()
         away_team = str(match['awayTeam']['name']).upper()
         match_date = str(match['utcDate'])
+        # Convert to datetime object
+        dt = datetime.strptime(match_date, "%Y-%m-%dT%H:%M:%SZ")
+        # Get the day with suffix
+        day_with_suffix = f"{dt.day}{add_suffix(dt.day)}"
+        # Format the datetime object
+        match_date = dt.strftime(f"%I:%M %p - {day_with_suffix} of %B %Y")
         print(f"{home_team} versus {away_team} on {match_date}")
+        fixtures.append(f"{home_team},{away_team},{match_date}")
+        # Insert sample data (you can add more teams/matches here)
+        # Insert match into the database
+        cursor.execute('''
+            INSERT OR IGNORE INTO matches (league, home_team, away_team, match_date) VALUES (?, ?, ?, ?)
+        ''', (league_name, home_team, away_team, match_date))
 
-        print(match)
+    conn.commit()
+    conn.close()
+
+
+def get_stats(league_name):
+
+    with sqlite3.connect('/Users/jason/PycharmProjects/soccer/templates/football_matches.db') as conn:
+        cursor = conn.cursor()
+
+    print(f"League is {league_name}")
+    match_results = f'https://api.football-data.org/v4/competitions/{league_name}/matches?status=FINISHED'
     headers = {'X-Auth-Token': '611a49203eca499a90945814f14d0d8f'}
+
+    results_response = requests.get(match_results, headers=headers)
     current_month_text = datetime.now().strftime('%B')
     current_day = datetime.now().strftime('%d')
     current_year_full = datetime.now().strftime('%Y')
@@ -44,29 +90,18 @@ def get_stats(league_name):
     form = {}
     fixtures = []
 
-    # Function to add the correct suffix to the day
-    def add_suffix(day):
-        if 11 <= day <= 13:
-            return "th"
-        return {1: "st", 2: "nd", 3: "rd"}.get(day % 10, "th")
-
-    # Function to calculate points from the form
-    def calculate_points(form):
-        points = 0
-        for result in form:
-            if result == 'W':
-                points += 3
-            elif result == 'D':
-                points += 1
-            # Loss (L) contributes 0 points, so we skip it
-        return points
-
     response = requests.get(match_results, headers=headers)
     for match in response.json()['matches']:
 
         count = count + 1
         home_team = str(match['homeTeam']['name']).upper()
         away_team = str(match['awayTeam']['name']).upper()
+        home_score = str(match['score']['fullTime']['home'])
+        away_score = str(match['score']['fullTime']['away'])
+
+        cursor.execute('''
+                    INSERT OR REPLACE INTO detailed_results (league, home_team, home_score, away_team, away_score) VALUES (?, ?, ?, ? ,?)
+                ''', (league_name, home_team, home_score, away_team, away_score))
 
         results.append(
             f"{match['homeTeam']['name']} {match['score']['fullTime']['home']} : {match['score']['fullTime']['away']} {match['awayTeam']['name']}")
@@ -165,33 +200,43 @@ def get_stats(league_name):
             teams.append(f"{match['awayTeam']['name']}")
         # home_form[home_team] += ":" + str(points[home_team])
 
+
+
     teams.sort()
     sorted_points = sorted(points.items(), key=lambda x: x[1])
     sorted_form = dict(sorted(form.items(), key=lambda x: calculate_points(x[1]), reverse=True))
     sorted_home_form = dict(sorted(home_form.items(), key=lambda x: calculate_points(x[1]), reverse=True))
     sorted_away_form = dict(sorted(away_form.items(), key=lambda x: calculate_points(x[1]), reverse=True))
 
-    fixtures_response = requests.get(match_fixtures, headers=headers)
+    for team in sorted_form.keys():
+        cursor.execute('''
+                        INSERT OR REPLACE INTO form (league, team, form) VALUES (?, ?, ?)
+                    ''', (league, team, sorted_form[team]))
 
-    for match in fixtures_response.json()["matches"]:
-        home_team = str(match['homeTeam']['name']).upper()
-        away_team = str(match['awayTeam']['name']).upper()
-        match_date = str(match['utcDate'])
-        # Convert to datetime object
-        dt = datetime.strptime(match_date, "%Y-%m-%dT%H:%M:%SZ")
-        # Get the day with suffix
-        day_with_suffix = f"{dt.day}{add_suffix(dt.day)}"
-        # Format the datetime object
-        readable_date = dt.strftime(f"%I:%M %p - {day_with_suffix} of %B %Y")
-        print(f"{home_team} versus {away_team} on {readable_date}")
-        fixtures.append(f"{home_team} versus {away_team} on {readable_date}")
+    for team in sorted_home_form.keys():
+        cursor.execute('''
+                        INSERT OR REPLACE INTO home_form (league, team, form) VALUES (?, ?, ?)
+                    ''', (league, team, sorted_home_form[team]))
+
+    for team in sorted_away_form.keys():
+        cursor.execute('''
+                        INSERT OR REPLACE  INTO away_form (league, team, form) VALUES (?, ?, ?)
+                    ''', (league, team, sorted_away_form[team]))
+
 
     with open(f'stats/teams_{league_name}.txt', 'w') as f:
         for line in teams:
+            print(f"Writing {line}")
+            cursor.execute('''
+                        INSERT OR REPLACE INTO teams (league, team) VALUES (?, ?)
+                    ''', (league_name, line))
             f.write(f"{line}\n")
 
     with open(f'stats/results_{league_name}.txt', 'w') as f:
         for line in results:
+            cursor.execute('''
+                        INSERT OR REPLACE INTO results (league, result) VALUES (?, ?)
+                    ''', (league_name, line))
             f.write(f"{line}\n")
 
     with open(f'stats/team_form_{league_name}.json', 'w') as fp:
@@ -215,6 +260,9 @@ def get_stats(league_name):
     with open(f'stats/fixtures_{league_name}.txt', 'w') as f:
         for line in fixtures:
             f.write(f"{line}\n")
+
+    conn.commit()
+
 
 
 leagues = ('PL', 'ELC')
