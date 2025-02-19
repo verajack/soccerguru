@@ -76,6 +76,7 @@ def process_teams(teams_form, form_history):
 
     return sorted_teams
 
+
 # Function to parse matches
 def parse_matches(match_list):
     matches = []
@@ -85,6 +86,7 @@ def parse_matches(match_list):
         match_date = parts[1] if len(parts) > 1 else "Unknown Date"
         matches.append((teams[0].strip(), teams[1].strip(), match_date))
     return matches
+
 
 # Sample team stats dictionary
 team_stats = {
@@ -99,6 +101,7 @@ team_stats = {
     "MIDDLESBROUGH FC": {"Wins": 10, "Losses": 6, "Draws": 2, "Points": 32},
     "BURNLEY FC": {"Wins": 12, "Losses": 3, "Draws": 3, "Points": 39},
 }
+
 
 @app.route('/')
 def home():
@@ -338,7 +341,7 @@ def fixtures():
         SELECT home_team, away_team, match_date 
         FROM matches 
         WHERE league = ?
-    ''', (league_name, ))
+    ''', (league_name,))
     match_fixtures = cursor.fetchall()
     conn.close()
 
@@ -359,14 +362,56 @@ def fixtures():
                            current_year=current_year_full)
 
 
-
-
-@app.route("/teams/<team_name>")
+@app.route("/teams/<team_name>", methods=["GET", "POST"])
 def team_page(team_name):
     team_name = team_name.replace("-", " ")  # Convert URL-friendly name back
     stats = team_stats.get(team_name, None)
     # return render_template("team.html", team=team_name, stats=stats)
-    return render_template("team.html", team=team_name)
+    conn = sqlite3.connect('/Users/jason/PycharmProjects/soccer/templates/football_matches.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+         SELECT form  
+         FROM form 
+         WHERE team = ?
+     ''', (team_name,))
+    team_form = cursor.fetchall()
+    get_team_form = team_form[0][0]
+
+    cursor.execute('''
+             SELECT form  
+             FROM home_form 
+             WHERE team = ?
+         ''', (team_name,))
+    home_form = cursor.fetchall()
+    get_home_form = home_form[0][0]
+
+    cursor.execute('''
+             SELECT form  
+             FROM away_form 
+             WHERE team = ?
+         ''', (team_name,))
+    home_form = cursor.fetchall()
+    get_away_form = home_form[0][0]
+
+    cursor.execute('''
+             SELECT home_team,home_score,away_team,away_score  
+             FROM detailed_results 
+             WHERE home_team = ?
+         ''', (team_name,))
+    game_result = cursor.fetchall()
+    home_score = game_result[0][0]
+    conn.close()
+
+    print(f'Game result i {game_result}')
+    print(f'Home score is {home_score}')
+    # Extract the string
+
+    # Remove any unwanted characters (only keep W, D, or L)
+    team_form_cleaned = re.sub(r'[^WDL]', '', get_team_form)
+    home_form_cleaned = re.sub(r'[^WDL]', '', get_home_form)
+    away_form_cleaned = re.sub(r'[^WDL]', '', get_away_form)
+    return render_template("team.html", team=team_name, team_form=team_form_cleaned, home_form=home_form_cleaned, away_form=away_form_cleaned, game_result=game_result)
+
 
 @app.route('/championship', methods=["GET", "POST"])
 def show_championship():

@@ -51,6 +51,17 @@ table {
 	border-spacing: 0;
 }
 
+.small-font-table {
+    font-size: 12px !important;
+    border-collapse: collapse !important;
+}
+
+.small-font-table th,
+.small-font-table td {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
 body {
 	-webkit-text-size-adjust: none;
 }
