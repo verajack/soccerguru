@@ -33,6 +33,11 @@ body {
 	line-height: 1;
 }
 
+th, td {
+    padding: 0 5px; /* 5px space between columns */
+    text-align: left;
+}
+
 ol, ul {
 	list-style: none;
 }
@@ -49,6 +54,7 @@ blockquote, q {
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
+	width: auto;
 }
 
 .small-font-table {

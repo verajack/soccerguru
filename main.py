@@ -396,21 +396,34 @@ def team_page(team_name):
     cursor.execute('''
              SELECT home_team,home_score,away_team,away_score  
              FROM detailed_results 
+             WHERE home_team = ? or away_team = ?
+         ''', (team_name, team_name))
+    results = cursor.fetchall()
+
+    cursor.execute('''
+             SELECT home_team,home_score,away_team,away_score  
+             FROM detailed_results 
              WHERE home_team = ?
          ''', (team_name,))
-    game_result = cursor.fetchall()
-    home_score = game_result[0][0]
+    home_results = cursor.fetchall()
+
+    cursor.execute('''
+             SELECT home_team,home_score,away_team,away_score  
+             FROM detailed_results 
+             WHERE away_team = ?
+         ''', (team_name,))
+    away_results = cursor.fetchall()
+
     conn.close()
 
-    print(f'Game result i {game_result}')
-    print(f'Home score is {home_score}')
     # Extract the string
 
     # Remove any unwanted characters (only keep W, D, or L)
     team_form_cleaned = re.sub(r'[^WDL]', '', get_team_form)
     home_form_cleaned = re.sub(r'[^WDL]', '', get_home_form)
     away_form_cleaned = re.sub(r'[^WDL]', '', get_away_form)
-    return render_template("team.html", team=team_name, team_form=team_form_cleaned, home_form=home_form_cleaned, away_form=away_form_cleaned, game_result=game_result)
+    return render_template("team.html", team=team_name, team_form=team_form_cleaned, home_form=home_form_cleaned, away_form=away_form_cleaned, results=results,
+                           home_results=home_results, away_results=away_results )
 
 
 @app.route('/championship', methods=["GET", "POST"])

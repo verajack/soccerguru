@@ -65,33 +65,56 @@
 							<p>
 								<strong>Away Form:</strong> {{ away_form }}
 							</p>
-							<p>
-								SoccerGuru is assisted with html5up released for free under the <a href="http://html5up.net/license">Creative Commons Attribution license</a>
-							</p>
+
 						</article>
 						<p><b>
-							<h4>Match Results for {{ team }}</h4>
-							<table style="font-size: 14px;">
-								<thead>
+							<h4>&nbsp &nbspMatch Results for {{ team }}</h4>
+							<br>
+							<details>
+							  <summary style="cursor: pointer; font-weight: bold;">Click to Show/Hide Results Table</summary>
+							  <table style="border-collapse: collapse; border-spacing: 0; width: auto; margin-top: 10px;">
+								<tr>
+									{% for match in results %}
 									<tr>
-										<th>Home Team</th>
-										<th>Home Score</th>
-										<th>Away Team</th>
-										<th>Away Score</th>
-									</tr>
-								</thead>
-								<tbody>
-									{% for match in game_result %}
-									<tr>
-										<td>{{ match[0] }}</td> <!-- Home Team -->
-										<td>{{ match[1] }}</td> <!-- Home Score -->
-										<td>{{ match[2] }}</td> <!-- Away Team -->
-										<td>{{ match[3] }}</td> <!-- Away Score -->
+										<td style="padding: 2px 9px;">{{ match[0] }}</td> <!-- Home Team -->
+										<td style="padding: 2px 9px;">{{ match[1] }}</td> <!-- Home Score -->
+										<td style="padding: 2px 9px;">{{ match[2] }}</td> <!-- Away Team -->
+										<td style="padding: 2px 9px;">{{ match[3] }}</td> <!-- Away Score -->
 									</tr>
 									{% endfor %}
-								</tbody>
-							</table>
+							  </table>
 
+							</details>
+							<br>
+							<details>
+							  <summary style="cursor: pointer; font-weight: bold;">Click to Show/Hide Home Results Table</summary>
+							  <table style="border-collapse: collapse; border-spacing: 0; width: auto; margin-top: 10px;">
+								<tr>
+									{% for match in home_results %}
+									<tr>
+										<td style="padding: 2px 9px;">{{ match[0] }}</td> <!-- Home Team -->
+										<td style="padding: 2px 9px;">{{ match[1] }}</td> <!-- Home Score -->
+										<td style="padding: 2px 9px;">{{ match[2] }}</td> <!-- Away Team -->
+										<td style="padding: 2px 9px;">{{ match[3] }}</td> <!-- Away Score -->
+									</tr>
+									{% endfor %}
+							  </table>
+							</details>
+							<br>
+							<details>
+							  <summary style="cursor: pointer; font-weight: bold;">Click to Show/Hide Away Results Table</summary>
+							  <table style="border-collapse: collapse; border-spacing: 0; width: auto; margin-top: 10px;">
+								<tr>
+									{% for match in away_results %}
+									<tr>
+										<td style="padding: 2px 9px;">{{ match[0] }}</td> <!-- Home Team -->
+										<td style="padding: 2px 9px;">{{ match[1] }}</td> <!-- Home Score -->
+										<td style="padding: 2px 9px;">{{ match[2] }}</td> <!-- Away Team -->
+										<td style="padding: 2px 9px;">{{ match[3] }}</td> <!-- Away Score -->
+									</tr>
+									{% endfor %}
+							  </table>
+							</details>
 					<!-- Post -->
 						<article class="box post post-excerpt">
 							<div class="info">
