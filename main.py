@@ -416,14 +416,15 @@ def team_page(team_name):
 
     conn.close()
 
-    # Extract the string
+    form_image_name = team_name.upper() + " - " + "All Form.jpeg"
+    form_filename = url_for('static', filename=f'images/form/{form_image_name}')
 
     # Remove any unwanted characters (only keep W, D, or L)
     team_form_cleaned = re.sub(r'[^WDL]', '', get_team_form)
     home_form_cleaned = re.sub(r'[^WDL]', '', get_home_form)
     away_form_cleaned = re.sub(r'[^WDL]', '', get_away_form)
     return render_template("team.html", team=team_name, team_form=team_form_cleaned, home_form=home_form_cleaned, away_form=away_form_cleaned, results=results,
-                           home_results=home_results, away_results=away_results )
+                           home_results=home_results, away_results=away_results, form_image=form_filename )
 
 
 @app.route('/championship', methods=["GET", "POST"])

@@ -248,3 +248,4 @@ Fulham FC 2 : 1 Nottingham Forest FC
 Crystal Palace FC 1 : 2 Everton FC
 Liverpool FC 2 : 1 Wolverhampton Wanderers FC
 Tottenham Hotspur FC 1 : 0 Manchester United FC
+Aston Villa FC 2 : 2 Liverpool FC

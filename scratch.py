@@ -1,61 +1,79 @@
 import os
-import json
-import requests
-import sqlite3
-from datetime import datetime
-
-print(f'>>> {os.path.abspath("football_matches.db")} <<<')
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy.interpolate import make_interp_spline
+import glob
 
 
-# Function to add the correct suffix to the day
-def add_suffix(day):
-    if 11 <= day <= 13:
-        return "th"
-    return {1: "st", 2: "nd", 3: "rd"}.get(day % 10, "th")
+def clear_folder(folder_path):
+    """Deletes all .jpeg files inside a given folder but keeps the folder itself."""
+    files = glob.glob(os.path.join(folder_path, "*.jpeg"))
+    for f in files:
+        try:
+            os.remove(f)
+        except Exception as e:
+            print(f"Error deleting {f}: {e}")
 
 
-def get_fixtures(league_name):
-    conn = sqlite3.connect('/Users/jason/PycharmProjects/soccer/templates/football_matches.db')
-    cursor = conn.cursor()
+def plot_team_form(team_name, form_string, form_type):
+    """
+    Generates a smooth form graph from a given string of results (W, D, L).
+    Saves it as a JPEG in 'images/form/'.
 
-    print(f"League is {league_name}")
+    Args:
+        team_name (str): The name of the team.
+        form_string (str): The results string, e.g., "WWDDLLLWWD".
+        form_type (str): The type of form (e.g., "HOME", "AWAY", "OVERALL").
+    """
 
-    matchday = 1
+    # Define folder path and ensure it exists
+    save_folder = "images/form"
+    os.makedirs(save_folder, exist_ok=True)
 
-    if league_name == "PL":
-        matchday = 24
-    elif league_name == "ELC":
-        matchday = 24
+    # Optional: Clear old images before saving the new one
+    clear_folder(save_folder)
 
-    match_fixtures = f'https://api.football-data.org/v4/competitions/{league_name}/matches?matchday={matchday}'
-    headers = {'X-Auth-Token': '611a49203eca499a90945814f14d0d8f'}
+    # Convert the form string into numerical values
+    y_values = [0]  # Start from 0
+    for result in form_string:
+        if result == "W":
+            y_values.append(y_values[-1] + 1)  # Win increases by 1
+        elif result == "L":
+            y_values.append(y_values[-1] - 1)  # Loss decreases by 1
+        else:  # Draw, stays the same
+            y_values.append(y_values[-1])
 
-    fixtures_response = requests.get(match_fixtures, headers=headers)
-    teams = []
-    fixtures = []
+    x_values = np.array(range(1, len(y_values) + 1))  # Start x-values from 1
 
-    for match in fixtures_response.json()["matches"]:
-        home_team = str(match['homeTeam']['name']).upper()
-        away_team = str(match['awayTeam']['name']).upper()
-        match_date = str(match['utcDate'])
-        # Convert to datetime object
-        dt = datetime.strptime(match_date, "%Y-%m-%dT%H:%M:%SZ")
-        # Get the day with suffix
-        day_with_suffix = f"{dt.day}{add_suffix(dt.day)}"
-        # Format the datetime object
-        match_date = dt.strftime(f"%I:%M %p - {day_with_suffix} of %B %Y")
-        print(f"{home_team} versus {away_team} on {match_date}")
-        fixtures.append(f"{home_team},{away_team},{match_date}")
-        # Insert sample data (you can add more teams/matches here)
-        # Insert match into the database
-        cursor.execute('''
-            INSERT OR IGNORE INTO matches (league, home_team, away_team, match_date) VALUES (?, ?, ?, ?)
-        ''', (league_name, home_team, away_team, match_date))
+    # Create a smooth curve using spline interpolation
+    if len(x_values) > 3:  # Only interpolate if enough data points exist
+        x_smooth = np.linspace(x_values.min(), x_values.max(), 300)  # More points for smoothness
+        spline = make_interp_spline(x_values, y_values, k=3)  # k=3 for cubic spline
+        y_smooth = spline(x_smooth)
+    else:
+        x_smooth, y_smooth = x_values, y_values  # Not enough points, use original
 
-    conn.commit()
-    conn.close()
+    # Plotting the smooth form
+    plt.figure(figsize=(8, 5))
+    plt.plot(x_smooth, y_smooth, linestyle="-", color="blue", linewidth=2, label="Form Trend")
+    plt.scatter(x_values, y_values, color="red", marker="o", label="Actual Results")  # Mark actual data points
+
+    # Labels and title
+    plt.xlabel("Matches Played")
+    plt.ylabel("Form Score")
+    plt.title(f"{team_name} - {form_type.capitalize()} Form")
+    plt.axhline(y=0, color="black", linestyle="--", linewidth=0.8)  # Reference line at 0
+    plt.xticks(x_values)  # Ensure x-axis shows 1,2,3...
+    plt.legend()
+
+    # Save the image
+    filename = f"{team_name} - {form_type.capitalize()} Form.jpeg"
+    filepath = os.path.join(save_folder, filename)
+    plt.savefig(filepath, format="jpeg", dpi=300)
+    plt.close()
+
+    print(f"Graph saved: {filepath}")
 
 
-leagues = ('PL', 'ELC')
-for league in leagues:
-    get_fixtures(league)
+# Example function call
+plot_team_form("Sheffield United", "WWWDDLLLWWDLLL", "HOME")

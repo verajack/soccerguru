@@ -390,3 +390,5 @@ Millwall FC 1 : 1 West Bromwich Albion FC
 Sheffield Wednesday FC 1 : 2 Coventry City FC
 Stoke City FC 3 : 1 Swansea City AFC
 Leeds United FC 2 : 1 Sunderland AFC
+Preston North End FC 1 : 1 Millwall FC
+Luton Town FC 1 : 1 Plymouth Argyle FC
